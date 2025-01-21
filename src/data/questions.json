@@ -1,0 +1,67 @@
+[
+    {
+      "id": 1,
+      "label": "Edad del perro",
+      "type": "select",
+      "required": true,
+      "options": ["Cachorro (menos de 1 año)", "Adulto (1-7 años)", "Senior (más de 7 años)"]
+    },
+    {
+      "id": 2,
+      "label": "Peso del perro",
+      "type": "text",
+      "required": true,
+      "placeholder": "Ingresa el peso en kg",
+      "validation": {
+        "min": 1,
+        "max": 100,
+        "type": "number"
+      }
+    },
+    {
+      "id": 3,
+      "label": "Tamaño del perro",
+      "type": "select",
+      "required": true,
+      "options": ["Pequeño (menos de 10 kg)", "Mediano (entre 10 y 25 kg)", "Grande (más de 25 kg)"]
+    },
+    {
+      "id": 4,
+      "label": "Estado de salud",
+      "type": "select",
+      "required": false,
+      "options": ["Normal", "Sobrepeso", "Bajo peso"]
+    },
+    {
+      "id": 5,
+      "label": "Nivel de actividad o ejercitación",
+      "type": "select",
+      "required": false,
+      "options": ["Bajo (poco o nada ejercicio)", "Medio (actividades y paseos regulares)", "Alto (ejercicio intenso)"]
+    },
+    {
+      "id": 6,
+      "label": "Raza",
+      "type": "text",
+      "required": true,
+      "placeholder": "Ingresa la raza de tu mascota",
+      "validation": {
+        "maxLength": 255
+      }
+    },
+    {
+      "id": 7,
+      "label": "Patología",
+      "type": "checkbox",
+      "required": true,
+      "options": ["Cardíaca", "Digestiva", "Renal", "Otra"]
+    },
+    {
+      "id": 8,
+      "label": "Alergias",
+      "type": "checkbox",
+      "required": true,
+      "options": ["Polen", "Alimentos", "Medicamentos", "Otra"]
+    }
+  ]
+  
