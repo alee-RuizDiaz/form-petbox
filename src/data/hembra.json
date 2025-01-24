@@ -1,0 +1,69 @@
+{
+    "preguntas": [
+      {
+        "pregunta": "¿Está esterilizada?",
+        "respuestas": [
+          { "texto": "Esterilizada", "valor": 2 },
+          { "texto": "No esterilizada", "valor": 2.25 }
+        ]
+      },
+      {
+        "pregunta": "¿Qué edad tiene {nombre de la mascota}?",
+        "respuestas": [
+          { "texto": "Cachorro (menos de 1 año)", "valor": null },
+          { "texto": "Adulto (1-7 años)", "valor": null },
+          { "texto": "Senior (más de 7 años)", "valor": null }
+        ]
+      },
+      {
+        "pregunta": "¿Qué silueta representa mejor a {nombre de la mascota}?",
+        "respuestas": [
+          { "texto": "Delgado", "valor": null },
+          { "texto": "Peso ideal", "valor": null },
+          { "texto": "Sobrepeso", "valor": null },
+          { "texto": "Obeso", "valor": null }
+        ]
+      },
+      {
+        "pregunta": "¿Cuánto pesa?",
+        "respuestas": [{ "texto": "Campo numérico", "valor": null }]
+      },
+      {
+        "pregunta": "¿Cuál es el nivel de actividad física de {nombre}?",
+        "respuestas": [
+          {
+            "texto": "Perrita alfombra: paseos diarios de menos de 1h. Lo que más le gusta es echarse una buena siesta 😴 y estar bien tranquilita.",
+            "valor": 2
+          },
+          {
+            "texto": "Perrita zen: paseos diarios de 1 a 2h. Sabe disfrutar de buenas caminatas, pero también sabe cuándo descansar 😴",
+            "valor": 2.25
+          },
+          {
+            "texto": "Perrita terremoto: paseos diarios de más de 2h. ¡No veas qué torbellino de energía! 💪",
+            "valor": 2.5
+          },
+          {
+            "texto": "Perrita deportista (agregar algún texto)",
+            "valor": 2.5
+          }
+        ]
+      },
+      {
+        "pregunta": "¿Tiene alguna patología?",
+        "respuestas": [
+          { "texto": "Sí", "valor": null },
+          { "texto": "No", "valor": null }
+        ]
+      },
+      {
+        "pregunta": "¿Qué crítico gastronómico es tu perro?",
+        "respuestas": [
+          { "texto": "Selectivo", "valor": null },
+          { "texto": "Gourmet", "valor": null },
+          { "texto": "Glotón", "valor": null }
+        ]
+      }
+    ]
+  }
+  

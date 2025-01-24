@@ -1,201 +1,185 @@
-import React, { useState } from 'react';
-import Progress from './Progress';
-import questions from '../data/questions';
-import Nombre from '../assets/img/Nombre.png';
-import Cumple from '../assets/img/Edad.png';
-import Perro from '../assets/img/Perro.svg';
-import Peso from '../assets/img/Peso.png';
+import React, { useState, useEffect } from "react";
+import Hembra from "./Hembra";
+import SeleccionarRaza from "../components/SelecRaza";
+import Perro from "../assets/img/perro.svg";
+import Nombre from "../assets/img/nombre.png";
+import Edad from "../assets/img/edad.png";
 
 const Form = () => {
-  const [currentStep, setCurrentStep] = useState(-1); // -1 indica la pantalla inicial
-  const [answers, setAnswers] = useState({});
+  const [currentStep, setCurrentStep] = useState(-1); // Inicia con -1 para la introducción
+  const [formData, setFormData] = useState({});
+  const [isNextEnabled, setIsNextEnabled] = useState(false);
 
-  const handleStart = () => {
-    setCurrentStep(0);
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setFormData({ ...formData, [currentStep]: value });
+    setIsNextEnabled(value.trim() !== ""); // Habilitar el botón solo si hay texto
   };
 
-  const handleChange = (id, value) => {
-    setAnswers({ ...answers, [id]: value });
+  const handleOptionSelect = (step, option) => {
+    setFormData({ ...formData, [step]: option });
+    setIsNextEnabled(true);
   };
 
   const handleNext = () => {
-    if (isAnswerValid()) {
-      setCurrentStep((prev) => prev + 1);
+    setCurrentStep((prev) => prev + 1);
+    setIsNextEnabled(false); // Reinicia el estado del botón
+  };
+
+  const handleRazaSelection = (raza) => {
+    setFormData({ ...formData, 0: raza }); // Guardamos la raza en el paso 0
+    handleNext();
+  };
+
+  useEffect(() => {
+    // Activar el botón automáticamente si ya hay datos guardados en un paso
+    if (formData[currentStep]) {
+      setIsNextEnabled(true);
+    } else {
+      setIsNextEnabled(false);
     }
-  };
-  
-  const handlePrevious = () => {
-    setCurrentStep((prev) => prev - 1); 
-  };
+  }, [currentStep, formData]);
 
-  const currentQuestion = questions[currentStep];
+  // Renderizar la introducción
+  if (currentStep === -1) {
+    return (
+      <div className="flex flex-col items-center">
+        <div className="w-[80px] h-[80px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-5">
+          <img src={Perro} alt="Perro" className="w-[90px] h-[90px]" />
+        </div>
+        <h1 className="font-quicksand font-semibold text-[35px] pb-[15px] text-font">
+          Arma el plan personalizado para tu Perro
+        </h1>
+        <p className="font-quicksand font-normal pb-[25px] text-[16px] text-center text-font">
+          Completa las preguntas para que podamos recomendar el mejor plan para tu mascota.
+        </p>
+        <div className="text-center">
+          <button
+            className="font-quicksand p-[10px] px-[25px] bg-[#E66C55] text-white text-[20px] rounded-[20px] hover:bg-[#FFEB88] hover:text-[#3d3d3d] transition"
+            onClick={handleNext}
+          >
+            Comenzar
+          </button>
+        </div>
+      </div>
+    );
+  }
 
-  const isAnswerValid = () => {
-    const answer = answers[currentQuestion?.id];
-    if (currentQuestion?.required) {
-      if (currentQuestion.type === 'checkbox') {
-        return Array.isArray(answer) && answer.length > 0;
-      }
-      return answer && answer.toString().trim() !== '';
-    }
-    return true;
-  };
+  // Paso de selección de raza
+  if (currentStep === 0) {
+    return <SeleccionarRaza onContinue={handleRazaSelection} />;
+  }
 
-  const handleOptionSelect = (option, event) => {
-    event.preventDefault(); 
-    handleChange(currentQuestion.id, option); 
-    handleNext(); 
-  };
+  // Paso de nombre
+  if (currentStep === 1) {
+    return (
+      <div className="flex flex-col items-center">
+        <div className="w-[110px] h-[110px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
+          <img src={Nombre} alt="Perro" className="w-[60px] h-[60px]" />
+        </div>
+        <h2 className="font-quicksand font-semibold text-font text-[25px] pb-[15px]">
+          ¿Cómo se llama tu perro?
+        </h2>
+        <input
+          type="text"
+          value={formData[1] || ""}
+          onChange={handleInputChange}
+          placeholder="Mi perrhijo se llama..."
+          className="w-full max-w-md p-3 border border-gray-300 rounded-lg text-center placeholder-gray-400"
+        />
+        <div className="text-center mt-[50px]">
+          <button
+            className={`font-quicksand p-[10px] px-[25px] text-white text-[20px] rounded-[20px] font-semibold ${
+              isNextEnabled
+                ? "bg-[#E66C55] text-white hover:bg-primary hover:text-[#3d3d3d] transition"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+            }`}
+            disabled={!isNextEnabled}
+            onClick={handleNext}
+          >
+            Continuar
+          </button>
+        </div>
+        <span className="p-4 mt-[50px] bg-[#EDF8F8] rounded-[10px] font-quicksand text-[14px]">
+          ¡Qué emoción! 🥰 Estás a punto de mejorar la vida de tu perro a través de una alimentación 100% natural.
+        </span>
+      </div>
+    );
+  }
+
+  // Paso de selección de género
+  if (currentStep === 2) {
+    return (
+      <div className="flex flex-col items-center">
+        <div className="w-[110px] h-[110px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
+          <img src={Edad} alt="Emoji" className="w-[60px] h-[60px]" />
+        </div>
+        <h2 className="font-quicksand font-semibold text-font text-[25px] pb-[15px]">
+          ¡Queremos conocer a {formData[1]}!
+        </h2>
+        <div className="flex space-x-4 mt-6">
+          <button
+            className={`px-6 py-3 text-[18px] font-quicksand rounded-full border-2 ${
+              formData[2] === "Macho"
+                ? "bg-[#fe9] text-[#3d3d3d] border-[#ffc800]"
+                : "bg-white text-gray-600 border-gray-300"
+            }`}
+            onClick={() => handleOptionSelect(2, "Macho")}
+          >
+            Macho
+          </button>
+          <button
+            className={`px-6 py-3 text-[18px] font-quicksand rounded-full border-2 ${
+              formData[2] === "Hembra"
+                ? "bg-[#fe9] text-[#3d3d3d] border-[#ffc800]"
+                : "bg-white text-gray-600 border-gray-300"
+            }`}
+            onClick={() => handleOptionSelect(2, "Hembra")}
+          >
+            Hembra
+          </button>
+        </div>
+        <div className="text-center mt-[50px]">
+          <button
+            className={`font-quicksand p-[10px] px-[25px] text-white text-[20px] rounded-[20px] font-semibold ${
+              isNextEnabled
+                ? "bg-[#E66C55] text-white hover:bg-primary hover:text-[#3d3d3d] transition"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+            }`}
+            disabled={!isNextEnabled}
+            onClick={handleNext}
+          >
+            Continuar
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Renderizar componente Hembra si se selecciona "Hembra"
+  if (formData[2] === "Hembra") {
+    return <Hembra nombre={formData[1]} />;
+  }
 
   return (
-    <div>
-      <div className="pb-[50px]">
-        {currentStep >= 0 && (
-          <Progress currentStep={currentStep + 1} totalSteps={questions.length} />
-        )}
-      </div>
-      {currentStep === -1 ? (
-        <div className="flex flex-col items-center">
-          <div className="w-[80px] h-[80px] bg-[#edf8f8] rounded-[100%] flex items-center justify-center mb-5">
-            <img src={Perro} alt="Perro" className="w-[90px] h-[90px]" />
-          </div>
-          <h1 className="font-quicksand font-semibold text-[35px] pb-[15px] text-font">
-            Arma el plan personalizado para tu Perro
-          </h1>
-          <p className="font-quicksand font-normal pb-[25px] text-[16px] text-center text-font">
-            Completa las preguntas para que podamos recomendar el mejor plan para tu mascota.
-          </p>
-          <div className="text-center">
-            <button
-              className="font-quicksand p-[10px] px-[25px] bg-[#E66C55] text-white text-[20px] rounded-[20px] hover:bg-[#FFEB88] hover:text-[#3d3d3d] transition"
-              onClick={handleStart}
-            >
-              Comenzar
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div className="flex flex-col justify-center items-center">
-          <form className="w-[400px]">
-            <div className={`${currentStep === 0 ? '' : 'bg-white'}`}>
-              <div className="flex flex-col items-center justify-center">
-                {currentStep === 0 && (
-                  <div className="w-[80px] h-[80px] bg-[#edf8f8] rounded-[100%] flex items-center justify-center mb-5">
-                    <img src={Nombre} alt="Perro" className="w-[45px] h-[45px]" />
-                  </div>
-                )}
-                {currentStep === 1 && (
-                  <div className="w-[80px] h-[80px] bg-[#edf8f8] rounded-[100%] flex items-center justify-center mb-5">
-                    <img src={Cumple} alt="Edad del perro" className="w-[45px] h-[45px]" />
-                  </div>
-                )}
-                {currentStep === 2 && (
-                  <div className="w-[80px] h-[80px] bg-[#edf8f8] rounded-[100%] flex items-center justify-center mb-5">
-                    <img src={Peso} alt="Peso del perro" className="w-[90px] h-[90px]" />
-                  </div>
-                )}
-              </div>
-              <label className="block font-quicksand font-regular text-[30px] pb-[15px] text-font text-center">
-                {currentQuestion.label}
-              </label>
-
-              {currentQuestion.type === 'select' && (
-                <div className="flex flex-col mt-2">
-                  {currentQuestion.options.map((option, index) => (
-                    <button
-                      key={index}
-                      onClick={(e) => handleOptionSelect(option, e)}
-                      className="font-quicksand mb-2 p-2 text-left bg-gray-200 rounded-md hover:bg-primary focus:outline-none transition"
-                    >
-                      {option}
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              {currentQuestion.type === 'text' && (
-                <input
-                  type="text"
-                  required={currentQuestion.required}
-                  placeholder={currentQuestion.placeholder}
-                  maxLength={currentQuestion.validation?.maxLength}
-                  onChange={(e) => handleChange(currentQuestion.id, e.target.value)}
-                  className="block w-full mt-2 p-2 border rounded-md"
-                />
-              )}
-
-              {currentQuestion.type === 'number' && (
-                <input
-                  type="number"
-                  required={currentQuestion.required}
-                  placeholder={currentQuestion.placeholder}
-                  maxLength={currentQuestion.validation?.maxLength}
-                  onChange={(e) => handleChange(currentQuestion.id, e.target.value)}
-                  className="block w-full mt-2 p-2 border rounded-md"
-                />
-              )}
-
-              {currentQuestion.type === 'checkbox' &&
-                currentQuestion.options.map((option, index) => (
-                  <div key={index} className="flex items-center mt-2">
-                    <input
-                      type="checkbox"
-                      value={option}
-                      onChange={(e) => {
-                        const checked = e.target.checked;
-                        const currentAnswers = answers[currentQuestion.id] || [];
-                        handleChange(
-                          currentQuestion.id,
-                          checked
-                            ? [...currentAnswers, option]
-                            : currentAnswers.filter((o) => o !== option)
-                        );
-                      }}
-                      className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                    />
-                    <label className="ml-2 text-sm text-gray-700">{option}</label>
-                  </div>
-                ))}
-            </div>
-          </form>
-          <div className="navigation-buttons flex justify-between mt-4 w-[400px]">
-            {currentStep > 0 && (
-                <button
-                className="font-quicksand p-[10px] px-[25px] bg-gray-200 rounded-[20px] hover:bg-gray-300 transition"
-                onClick={handlePrevious}
-                >
-                Atrás
-                </button>
-            )}
-            {currentStep < questions.length - 1 && currentQuestion.type !== 'select' && (
-                <button
-                className={`font-quicksand p-[10px] px-[25px] rounded-[20px] transition ${
-                    isAnswerValid()
-                    ? 'bg-[#E66C55] text-white hover:bg-[#FFEB88] hover:text-[#3d3d3d]'
-                    : 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                }`}
-                onClick={handleNext}
-                disabled={!isAnswerValid()}
-                >
-                Siguiente
-                </button>
-            )}
-            {currentStep === questions.length - 1 && (
-                <button
-                className="p-2 px-4 bg-green-500 text-white rounded-md hover:bg-green-600 transition"
-                onClick={() => console.log(answers)}
-                >
-                Finalizar
-                </button>
-            )}
-          </div>
-        </div>
-      )}
+    <div className="flex flex-col items-center">
+      <h2 className="font-quicksand font-semibold text-font text-[25px] pb-[15px]">
+        Gracias por completar el formulario
+      </h2>
     </div>
   );
 };
 
 export default Form;
+
+
+
+
+
+
+
+
+
 
 
 

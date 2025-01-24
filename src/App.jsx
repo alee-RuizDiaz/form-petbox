@@ -10,7 +10,7 @@ function App() {
       <div className='bg-[#FBF8E9] w-full'>
         <NavBar/>
       </div>
-      <div className='flex-grow flex justify-center items-center'>
+      <div className='flex-grow flex justify-center items-start pt-[100px]'>
         <Form/>
       </div>
     </div>
