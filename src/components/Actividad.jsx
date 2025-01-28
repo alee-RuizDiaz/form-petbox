@@ -5,29 +5,29 @@ import Terremoto from "../assets/img/Perrito terremoto.png";
 import Deportista from "../assets/img/Perrito deportista.png";
 
 const Actividad = ({ nombre, onChange }) => {
-  const [selectedValue, setSelectedValue] = useState(1);
+  const [selectedValue, setSelectedValue] = useState(2); // Valor inicial
 
   const levels = [
     {
-        value: 2,
-        label: "Alfombra",
-        description: "Perrita alfombra: paseos diarios de menos de 1h. Lo que más le gusta es echarse una buena siesta 😴 y estar bien tranquilita.",
-        image: Alfombra,
+      value: 1,
+      label: "Alfombra",
+      description: "Perrita alfombra: paseos diarios de menos de 1h. Lo que más le gusta es echarse una buena siesta 😴 y estar bien tranquilita.",
+      image: Alfombra,
     },
     {
-      value: 2.75,
+      value: 2,
       label: "Zen",
       description: "Perrita zen: paseos diarios de 1 a 2h. Sabe disfrutar de buenas caminatas, pero también sabe cuándo descansar 😴",
       image: Zen,
     },
     {
-      value: 2.5,
+      value: 3,
       label: "Terremoto",
       description: "Perrita terremoto: paseos diarios de más de 2h. ¡Un torbellino de energía! 💪",
       image: Terremoto,
     },
     {
-      value: 4.25,
+      value: 4,
       label: "Deportista",
       description: "Perrita deportista: paseos diarios intensos y sesiones de ejercicio extra. ¡Ama correr, saltar y estar en movimiento todo el día! 🏃‍♀️💨",
       image: Deportista,
@@ -35,14 +35,18 @@ const Actividad = ({ nombre, onChange }) => {
   ];
 
   const handleChange = (e) => {
-    const value = parseInt(e.target.value);
+    const value = parseInt(e.target.value, 10); // Convertir el valor a número
     setSelectedValue(value);
-    if (onChange) {
-      onChange(value); // Pasar el valor seleccionado al padre
+  
+    const selectedLevel = levels.find((level) => level.value === value); // Encontrar el nivel actual
+    if (onChange && selectedLevel) {
+      onChange({ value: selectedLevel.value, label: selectedLevel.label }); // Enviar ambos datos al padre
     }
   };
+  
+  
 
-  const currentLevel = levels.find((level) => level.value === selectedValue);
+  const currentLevel = levels.find(level => level.value === selectedValue) || levels[0];
 
   return (
     <div className="flex flex-col items-center pb-5">
@@ -57,7 +61,7 @@ const Actividad = ({ nombre, onChange }) => {
           type="range"
           min="1"
           max="4"
-          step="1"
+          step="1" // Solo valores enteros
           value={selectedValue}
           onChange={handleChange}
           className="w-full appearance-none bg-gray-300 h-2 rounded-full outline-none cursor-pointer accent-[#E66C55] mt-5"
@@ -88,3 +92,5 @@ const Actividad = ({ nombre, onChange }) => {
 };
 
 export default Actividad;
+
+

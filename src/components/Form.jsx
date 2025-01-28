@@ -4,11 +4,13 @@ import SeleccionarRaza from "../components/SelecRaza";
 import Perro from "../assets/img/perro.svg";
 import Nombre from "../assets/img/nombre.png";
 import Edad from "../assets/img/edad.png";
+import Macho from "./Macho"; 
 
 const Form = () => {
   const [currentStep, setCurrentStep] = useState(-1); // Inicia con -1 para la introducción
   const [formData, setFormData] = useState({});
   const [isNextEnabled, setIsNextEnabled] = useState(false);
+  const [selectedRaza, setSelectedRaza] = useState("");
 
   const handleInputChange = (e) => {
     const value = e.target.value;
@@ -16,15 +18,33 @@ const Form = () => {
     setIsNextEnabled(value.trim() !== ""); // Habilitar el botón solo si hay texto
   };
 
+  const handleRazaSeleccionada = (raza) => {
+    setSelectedRaza(raza);
+  };
+
   const handleOptionSelect = (step, option) => {
     setFormData({ ...formData, [step]: option });
     setIsNextEnabled(true);
   };
 
+  const handleMachoDataChange = (data) => {
+    setFormData((prev) => ({
+      ...prev,
+      macho: { ...prev.macho, ...data },
+    }));
+  };
+  
+
   const handleNext = () => {
-    setCurrentStep((prev) => prev + 1);
+    if (currentStep === 3) {
+      // Si estamos en Macho o Hembra, avanzar al paso final
+      setCurrentStep(4);
+    } else {
+      setCurrentStep((prev) => prev + 1);
+    }
     setIsNextEnabled(false); // Reinicia el estado del botón
   };
+  
 
   const handleRazaSelection = (raza) => {
     setFormData({ ...formData, 0: raza }); // Guardamos la raza en el paso 0
@@ -67,7 +87,7 @@ const Form = () => {
 
   // Paso de selección de raza
   if (currentStep === 0) {
-    return <SeleccionarRaza onContinue={handleRazaSelection} />;
+    return <SeleccionarRaza onContinue={handleRazaSelection} onRazaSeleccionada={handleRazaSeleccionada} />;
   }
 
   // Paso de nombre
@@ -101,7 +121,7 @@ const Form = () => {
           </button>
         </div>
         <span className="p-4 mt-[50px] bg-[#EDF8F8] rounded-[10px] font-quicksand text-[14px]">
-          ¡Qué emoción! 🥰 Estás a punto de mejorar la vida de tu perro a través de una alimentación 100% natural.
+          ¡Qué emoción! 🥰 Estás a punto de mejorar la vida de tu {selectedRaza} a través de una alimentación 100% natural.
         </span>
       </div>
     );
@@ -156,18 +176,62 @@ const Form = () => {
     );
   }
 
-  // Renderizar componente Hembra si se selecciona "Hembra"
-  if (formData[2] === "Hembra") {
-    return <Hembra nombre={formData[1]} />;
+  if (currentStep === 3 && formData[2] === "Hembra") {
+    return <Hembra nombre={formData[1]} onContinue={() => setCurrentStep(4)} />;
+  }
+  
+  // Renderizar componente Macho si se selecciona "Macho"
+  if (currentStep === 3 && formData[2] === "Macho") {
+    return <Macho nombre={formData[1]} onContinue={() => setCurrentStep(4)} onDataChange={handleMachoDataChange} />;
   }
 
-  return (
-    <div className="flex flex-col items-center">
-      <h2 className="font-quicksand font-semibold text-font text-[25px] pb-[15px]">
-        Gracias por completar el formulario
-      </h2>
-    </div>
-  );
+  // Renderizar mensaje final
+  if (currentStep === 4) {
+    return (
+      <div className="flex flex-col items-center">
+        <h2 className="font-quicksand font-semibold text-font text-[25px] pb-[15px]">
+          Datos recolectados:
+        </h2>
+        <span>
+          <ul>
+            <li>
+              Raza: {selectedRaza}
+            </li>
+            <li>
+              Nombre: {formData[1]}
+            </li>
+            <li>
+              Género: {formData[2]}
+            </li>
+            <li>
+              Esterilizado: {formData.macho?.esterilizado ? "Sí" : "No"}
+            </li>
+            <li>
+              Edad: {formData.macho?.edad}
+            </li>
+            <li>
+              Silueta: {formData.macho?.silueta}
+            </li>
+            <li>
+              Peso: {formData.macho?.peso} Kg
+            </li>
+            <li>
+              Nivel de actividad: {formData.macho?.actividad.label}
+            </li>
+            <li>
+              Patología: {formData.macho?.patologia}
+            </li>
+            <li>
+              Comida: {formData.macho?.comida}
+            </li>
+            <li>
+              Contacto: {formData.macho?.contacto}
+            </li>
+          </ul>
+        </span>
+      </div>
+    );
+  }
 };
 
 export default Form;

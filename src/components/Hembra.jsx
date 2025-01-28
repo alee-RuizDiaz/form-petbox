@@ -3,9 +3,12 @@ import Edad from "../assets/img/Edad.png";
 import Cumple from "../assets/img/Cumple.png";
 import Perro from "../assets/img/Perro.svg";
 import Actividad from "./Actividad";
+import SeleccionPatologia from "./Patologias";
+import Comidas from "./Comidas";
+import Humano from "./Humano";
 
 
-const Hembra = ({nombre}) => {
+const Hembra = ({nombre, onContinue}) => {
   const [formData, setFormData] = useState({});
   const [currentStep, setCurrentStep] = useState(0); // Controla el paso actual
 
@@ -20,10 +23,6 @@ const Hembra = ({nombre}) => {
 
   const handleNext = () => {
     setCurrentStep((prev) => prev + 1);
-  };
-
-  const handleBack = () => {
-    setCurrentStep((prev) => prev - 1);
   };
 
   return (
@@ -185,6 +184,7 @@ const Hembra = ({nombre}) => {
     <div className={`${currentStep === 4 ? "block" : "hidden"} flex flex-col items-center`}>
       <Actividad
         nombre={nombre}
+        onChange={(value) => setFormData({ ...formData, 4: value })}
       />
       <div className="mt-4 text-right">
         <button
@@ -200,7 +200,51 @@ const Hembra = ({nombre}) => {
         </button>
       </div>
     </div>
+
+    {/* Pregunta 6 */}
+    <div className={`${currentStep === 5 ? "block" : "hidden"} flex flex-col items-center`}>
+      <SeleccionPatologia
+        onPatologiaSeleccionada={(respuesta, patologia) => {
+          handleOptionSelect(5, respuesta);
+          setFormData({ ...formData, 6: patologia }); // Actualiza la patología seleccionada
+        }}
+        onContinue={handleNext} // Avanza al siguiente paso
+      />
     </div>
+
+    {/* Pregunta 7 */}
+    <div className={`${currentStep === 6 ? "block" : "hidden"} flex flex-col items-center`}>
+      <Comidas
+        nombre={nombre}
+        onChange={(respuesta) => setFormData({ ...formData, 7: respuesta })}
+      />
+      <div className="mt-4 text-right">
+        <button
+          onClick={handleNext}
+          disabled={!formData[7]} // Asegúrate de que la respuesta esté completa
+          className={`font-quicksand p-[10px] px-[25px] text-white text-[20px] rounded-[20px] font-semibold ${
+            formData[7]
+              ? "bg-[#E66C55] text-white hover:bg-primary hover:text-[#3d3d3d] transition"
+              : "bg-gray-300 text-gray-500 cursor-not-allowed"
+          }`}
+        >
+          Continuar
+        </button>
+      </div>
+    </div>
+
+    {/* Pregunta 8 */}
+    <div className={`${currentStep === 7 ? "block" : "hidden"} flex flex-col items-center`}>
+      <Humano
+        nombre={nombre}
+        onSave={(data) => {
+          setFormData({ ...formData, 8: data }); // Guardar email y teléfono
+        }}
+        onContinue={onContinue}
+      />
+    </div>
+
+  </div>
   );
 };
 
