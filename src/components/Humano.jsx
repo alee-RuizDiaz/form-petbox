@@ -56,13 +56,13 @@ const Humano = ({ nombre, onSave, onContinue }) => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="w-[110px] h-[110px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
-        <img src={HumanoImg} alt="Humano" className="w-[80px] h-[80px]" />
+      <div className="w-[80px] h-[80px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
+        <img src={HumanoImg} alt="Humano" className="w-[50px] h-[50px]" />
       </div>
-      <h2 className="font-quicksand font-semibold text-font text-[25px] pb-[15px]">
+      <h2 className="font-quicksand font-semibold text-font lg:text-[25px] text-[20px] pb-[15px] px-[20px] w-[300px] lg:w-[450px] text-center">
         ¡El menú especial para {nombre} está casi listo!
       </h2>
-      <div className="space-y-4 w-full max-w-md">
+      <div className="space-y-4 lg:w-full w-[300px] max-w-md">
         <input
           type="email"
           value={email}
@@ -91,7 +91,7 @@ const Humano = ({ nombre, onSave, onContinue }) => {
       >
         Ver menú de {nombre}
       </button>
-      <span className="text-center p-4 mt-[50px] bg-[#EDF8F8] rounded-[10px] font-quicksand text-[14px] w-[650px]">
+      <span className="mb-[30px] text-center p-4 mt-[50px] bg-[#EDF8F8] rounded-[10px] font-quicksand text-[14px] lg:w-[650px] w-[300px]">
         Al continuar, se guardará tu proceso y estarás aceptando recibir las
         mejores recomendaciones sobre la alimentación de {nombre} 🧡
       </span>

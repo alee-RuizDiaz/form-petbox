@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Patologia from "../assets/img/patologia.png"; // Cambia a la ruta correcta del icono
+import Patologia from "../assets/img/patologia.png"; // Asegúrate de la ruta correcta
 
 const SeleccionPatologia = ({ onPatologiaSeleccionada, onContinue }) => {
   const [tienePatologia, setTienePatologia] = useState(null); // Sí o No
@@ -14,34 +14,33 @@ const SeleccionPatologia = ({ onPatologiaSeleccionada, onContinue }) => {
     "Problemas Dentales",
     "Diabetes",
     "Epilepsia",
-    "Cancer",
+    "Cáncer",
     "Otitis",
-    "Sindrome de Cushing (HAC)",
+    "Síndrome de Cushing (HAC)",
     "Hipotiroidismo",
-    "Otro", 
-  ]; // Lista de patologías
+    "Otro",
+  ];
 
   const handleTienePatologia = (respuesta) => {
     setTienePatologia(respuesta);
-    setPatologia(""); // Resetear la patología seleccionada si se cambia a "No"
-    if (respuesta === "No") onPatologiaSeleccionada(respuesta, ""); // Notificar al padre
+    setPatologia(""); // Resetear si cambia la respuesta a "No"
+    onPatologiaSeleccionada(respuesta); // Enviar al padre
   };
 
   const handleSelectPatologia = (value) => {
     setPatologia(value);
-    onPatologiaSeleccionada("Sí", value); // Notificar al padre con la selección
-    setIsOpen(false); // Cerrar el desplegable al seleccionar una patología
+    onPatologiaSeleccionada(value); // Notificar al padre con la selección
+    setIsOpen(false); // Cerrar el desplegable
   };
 
-  const isContinueEnabled =
-    tienePatologia === "No" || (tienePatologia === "Sí" && patologia);
+  const isContinueEnabled = tienePatologia === "No" || (tienePatologia === "Sí" && patologia);
 
   return (
     <div className="flex flex-col items-center">
-      <div className="w-[110px] h-[110px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
-        <img src={Patologia} alt="Perro" className="w-[80px] h-[80px]" />
+      <div className="w-[80px] h-[80px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
+        <img src={Patologia} alt="Perro" className="w-[50px] h-[50px]" />
       </div>
-      <h2 className="font-quicksand font-semibold text-font text-[25px] pb-[15px]">
+      <h2 className="font-quicksand font-semibold text-font lg:text-[25px] text-[20px] pb-[15px]">
         ¿Tiene tu perro alguna patología?
       </h2>
       <div className="flex space-x-4 mt-6">
@@ -62,7 +61,7 @@ const SeleccionPatologia = ({ onPatologiaSeleccionada, onContinue }) => {
       {tienePatologia === "Sí" && (
         <div className="relative mt-4 w-full max-w-md">
           <button
-            onClick={() => setIsOpen(!isOpen)} // Alternar la visibilidad del desplegable
+            onClick={() => setIsOpen(!isOpen)}
             className="w-full text-left p-3 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none"
           >
             {patologia || "Selecciona una patología"}
@@ -84,7 +83,7 @@ const SeleccionPatologia = ({ onPatologiaSeleccionada, onContinue }) => {
         </div>
       )}
 
-      <span className="text-center p-4 mt-[50px] bg-[#EDF8F8] rounded-[10px] font-quicksand text-[14px] w-[650px]">
+      <span className="text-center p-4 mt-[50px] bg-[#EDF8F8] rounded-[10px] font-quicksand text-[14px] lg:w-[650px] w-[300px]">
         Cada perro es un mundo 🌎 ¡No te preocupes! 🧡<br /> Adaptaremos nuestro
         menú a su caso, siempre que sea posible. Si la patología de tu perro no
         aparece en el formulario, envía un correo a{" "}
@@ -95,9 +94,9 @@ const SeleccionPatologia = ({ onPatologiaSeleccionada, onContinue }) => {
 
       <div className="mt-6">
         <button
-          onClick={() => onContinue()}
+          onClick={onContinue}
           disabled={!isContinueEnabled}
-          className={`font-quicksand p-[10px] px-[25px] text-white text-[20px] rounded-[20px] font-semibold ${isContinueEnabled ? "bg-[#E66C55] text-white hover:bg-primary hover:text-[#3d3d3d] transition" : "bg-gray-300 text-gray-500 cursor-not-allowed"}`}
+          className={`mb-[30px] font-quicksand p-[10px] px-[25px] text-white text-[20px] rounded-[20px] font-semibold ${isContinueEnabled ? "bg-[#E66C55] text-white hover:bg-primary hover:text-[#3d3d3d] transition" : "bg-gray-300 text-gray-500 cursor-not-allowed"}`}
         >
           Continuar
         </button>
@@ -107,5 +106,6 @@ const SeleccionPatologia = ({ onPatologiaSeleccionada, onContinue }) => {
 };
 
 export default SeleccionPatologia;
+
 
 

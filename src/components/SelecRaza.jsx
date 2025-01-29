@@ -105,14 +105,14 @@ const SeleccionarRaza = ({ onContinue, onRazaSeleccionada }) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <div className="w-[80px] h-[80px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-5">
-        <img src={PerroIcon} alt="Lupa" className="w-[50px] h-[50px]" />
+    <div className="flex flex-col items-center justify-start">
+      <div className="w-[80px] h-[80px] lg:w-[80px] lg:h-[80px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-5">
+        <img src={PerroIcon} alt="Lupa" className="lg:w-[50px] lg:h-[50px] w-[50px] h-[50px]" />
       </div>
-      <h2 className="font-quicksand font-semibold text-font text-[25px] pb-[15px]">
+      <h2 className="font-quicksand font-semibold text-font lg:text-[25px] text-[20px] pb-[15px]">
         ¿Cuál es la raza de tu perro?
       </h2>
-      <div className="relative w-[370px]">
+      <div className="relative lg:w-[370px] w-[300px]">
         <button
           className="w-full p-3 border border-gray-300 rounded-lg text-gray-700 text-[16px] bg-white focus:outline-none focus:ring-2 focus:ring-[#E66C55]"
           onClick={() => setIsOpen(!isOpen)}

@@ -33,6 +33,13 @@ const Form = () => {
       macho: { ...prev.macho, ...data },
     }));
   };
+
+  const handleHembraDataChange = (data) => {
+    setFormData((prev) => ({
+      ...prev,
+      hembra: { ...prev.macho, ...data },
+    }));
+  };
   
 
   const handleNext = () => {
@@ -67,7 +74,7 @@ const Form = () => {
         <div className="w-[80px] h-[80px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-5">
           <img src={Perro} alt="Perro" className="w-[90px] h-[90px]" />
         </div>
-        <h1 className="font-quicksand font-semibold text-[35px] pb-[15px] text-font">
+        <h1 className="font-quicksand font-semibold lg:text-[35px] text-[25px] px-[20px] lg:text-start text-center pb-[15px] text-font">
           Arma el plan personalizado para tu Perro
         </h1>
         <p className="font-quicksand font-normal pb-[25px] text-[16px] text-center text-font">
@@ -94,10 +101,10 @@ const Form = () => {
   if (currentStep === 1) {
     return (
       <div className="flex flex-col items-center">
-        <div className="w-[110px] h-[110px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
-          <img src={Nombre} alt="Perro" className="w-[60px] h-[60px]" />
+        <div className="w-[80px] h-[80px] lg:w-[80px] lg:h-[80px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
+          <img src={Nombre} alt="Perro" className="lg:w-[50px] lg:h-[50px] w-[50px] h-[50px]"/>
         </div>
-        <h2 className="font-quicksand font-semibold text-font text-[25px] pb-[15px]">
+        <h2 className="font-quicksand font-semibold text-font lg:text-[25px] text-[20px] pb-[15px]">
           ¿Cómo se llama tu perro?
         </h2>
         <input
@@ -105,7 +112,7 @@ const Form = () => {
           value={formData[1] || ""}
           onChange={handleInputChange}
           placeholder="Mi perrhijo se llama..."
-          className="w-full max-w-md p-3 border border-gray-300 rounded-lg text-center placeholder-gray-400"
+          className="lg:w-[370px] w-[300px] max-w-md p-3 border border-gray-300 rounded-lg text-center placeholder-gray-400"
         />
         <div className="text-center mt-[50px]">
           <button
@@ -120,7 +127,7 @@ const Form = () => {
             Continuar
           </button>
         </div>
-        <span className="p-4 mt-[50px] bg-[#EDF8F8] rounded-[10px] font-quicksand text-[14px]">
+        <span className="p-4 mt-[50px] bg-[#EDF8F8] rounded-[10px] font-quicksand lg:text-[14px] text-center text-[13px] px-[20px] lg:w-[370px] w-[320px]">
           ¡Qué emoción! 🥰 Estás a punto de mejorar la vida de tu {selectedRaza} a través de una alimentación 100% natural.
         </span>
       </div>
@@ -131,15 +138,15 @@ const Form = () => {
   if (currentStep === 2) {
     return (
       <div className="flex flex-col items-center">
-        <div className="w-[110px] h-[110px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
-          <img src={Edad} alt="Emoji" className="w-[60px] h-[60px]" />
+        <div className="w-[80px] h-[80px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
+          <img src={Edad} alt="Emoji" className="w-[50px] h-[50px]" />
         </div>
-        <h2 className="font-quicksand font-semibold text-font text-[25px] pb-[15px]">
+        <h2 className="font-quicksand font-semibold text-font lg:text-[25px] text-[20px] pb-[15px]">
           ¡Queremos conocer a {formData[1]}!
         </h2>
-        <div className="flex space-x-4 mt-6">
+        <div className="flex space-x-4 lg:mt-6 mt-2">
           <button
-            className={`px-6 py-3 text-[18px] font-quicksand rounded-full border-2 ${
+            className={`px-6 py-3 lg:text-[18px] text-[16px] font-quicksand rounded-full border-2 ${
               formData[2] === "Macho"
                 ? "bg-[#fe9] text-[#3d3d3d] border-[#ffc800]"
                 : "bg-white text-gray-600 border-gray-300"
@@ -149,7 +156,7 @@ const Form = () => {
             Macho
           </button>
           <button
-            className={`px-6 py-3 text-[18px] font-quicksand rounded-full border-2 ${
+            className={`px-6 py-3 lg:text-[18px] text-[16px] font-quicksand rounded-full border-2 ${
               formData[2] === "Hembra"
                 ? "bg-[#fe9] text-[#3d3d3d] border-[#ffc800]"
                 : "bg-white text-gray-600 border-gray-300"
@@ -177,7 +184,7 @@ const Form = () => {
   }
 
   if (currentStep === 3 && formData[2] === "Hembra") {
-    return <Hembra nombre={formData[1]} onContinue={() => setCurrentStep(4)} />;
+    return <Hembra nombre={formData[1]} onContinue={() => setCurrentStep(4)} onDataChange={handleHembraDataChange} />;
   }
   
   // Renderizar componente Macho si se selecciona "Macho"
@@ -222,10 +229,11 @@ const Form = () => {
               Patología: {formData.macho?.patologia}
             </li>
             <li>
-              Comida: {formData.macho?.comida}
+              Comida: {formData.macho?.comida?.label}
             </li>
             <li>
-              Contacto: {formData.macho?.contacto}
+              Email: {formData.macho?.contacto?.email}<br/>
+              Celular: {formData.macho?.contacto?.telefono}
             </li>
           </ul>
         </span>

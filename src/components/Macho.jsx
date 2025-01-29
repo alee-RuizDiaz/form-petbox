@@ -10,7 +10,7 @@ import Humano from "./Humano";
 const OptionButton = ({ option, selected, onSelect }) => (
   <button
     onClick={() => onSelect(option)}
-    className={`p-3 border rounded-lg text-[18px] text-center ${selected === option ? "bg-[#fe9] text-[#3d3d3d] border-[#ffc800]" : "hover:bg-gray-200"}`}
+    className={`font-quicksand p-3 border rounded-lg lg:text-[18px] text-[14px] text-center ${selected === option ? "bg-[#fe9] text-[#3d3d3d] border-[#ffc800]" : "hover:bg-gray-200"}`}
   >
     {option}
   </button>
@@ -25,7 +25,7 @@ const Macho = ({ nombre, onContinue, onDataChange }) => {
     actividad: "",
     patologia: "",
     comida: "",
-    contacto: ""
+    contacto: { email: "", telefono: "" }
   });
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -49,8 +49,11 @@ const Macho = ({ nombre, onContinue, onDataChange }) => {
   };
 
   const isNextButtonDisabled = (step) => {
+    if (step === "comida") return !formData[step]?.value;
+    if (step === "contacto") return !formData[step]?.email || !formData[step]?.telefono;
     return !formData[step];
   };
+  
 
   const images = {
     edad: Edad,
@@ -58,14 +61,16 @@ const Macho = ({ nombre, onContinue, onDataChange }) => {
     perro: Perro
   };
 
+
+
   return (
     <div>
       {/* Pregunta 1 */}
       <div className={`${currentStep === 0 ? "block" : "hidden"} flex flex-col items-center`}>
-        <div className="w-[110px] h-[110px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
-          <img src={images.edad} alt="Perro" className="w-[60px] h-[60px]" />
+        <div className="w-[80px] h-[80px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
+          <img src={images.edad} alt="Perro" className="w-[50px] h-[50px]" />
         </div>
-        <h2 className="font-quicksand font-semibold text-font text-[25px] pb-[15px]">¿Está esterilizado?</h2>
+        <h2 className="font-quicksand font-semibold text-font lg:text-[25px] text-[20px] lg:pb-[15px]">¿Está esterilizado?</h2>
         <div className="flex space-x-4 mt-6">
           <OptionButton option="Esterilizado" selected={formData.esterilizado} onSelect={(option) => handleOptionSelect("esterilizado", option)} />
           <OptionButton option="No esterilizado" selected={formData.esterilizado} onSelect={(option) => handleOptionSelect("esterilizado", option)} />
@@ -73,11 +78,11 @@ const Macho = ({ nombre, onContinue, onDataChange }) => {
         <button
           onClick={() => handleNext("esterilizado")}
           disabled={isNextButtonDisabled("esterilizado")}
-          className={`mt-[30px] font-quicksand p-[10px] px-[25px] text-white text-[20px] rounded-[20px] font-semibold ${!isNextButtonDisabled("esterilizado") ? "bg-[#E66C55]" : "bg-gray-300 text-gray-500 cursor-not-allowed"}`}
+          className={`mt-[30px] lg:mb-[30px] mb-[0px] font-quicksand p-[10px] px-[25px] text-white text-[20px] rounded-[20px] font-semibold hover:bg-primary hover:text-[#3d3d3d] transition ${!isNextButtonDisabled("esterilizado") ? "bg-[#E66C55]" : "bg-gray-300 text-gray-500 cursor-not-allowed"}`}
         >
           Continuar
         </button>
-        <span className="text-center p-4 mt-[50px] bg-[#EDF8F8] rounded-[10px] font-quicksand text-[14px]">
+        <span className="text-center p-4 mt-[50px] bg-[#EDF8F8] rounded-[10px] font-quicksand lg:text-[14px] text-[13px] px-[20px] lg:w-[370px] w-[320px]">
         ¿Por qué es importante? 👩‍⚕️<br />
         Después de la esterilización, se requieren ajustes en la ración, ya que el perro suele tener menor gasto calórico.
         </span>
@@ -85,11 +90,11 @@ const Macho = ({ nombre, onContinue, onDataChange }) => {
 
       {/* Pregunta 2 */}
       <div className={`${currentStep === 1 ? "block" : "hidden"} flex flex-col items-center`}>
-        <div className="w-[110px] h-[110px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
-          <img src={images.cumple} alt="Perro" className="w-[60px] h-[60px]" />
+        <div className="w-[80px] h-[80px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
+          <img src={images.cumple} alt="Perro" className="w-[50px] h-[50px]" />
         </div>
-        <h2 className="font-quicksand font-semibold text-font text-[25px] pb-[15px]">¿Qué edad tiene {nombre}?</h2>
-        <div className="w-[450px] flex flex-col space-y-2">
+        <h2 className="font-quicksand font-semibold text-font lg:text-[25px] text-[20px] pb-[15px]">¿Qué edad tiene {nombre}?</h2>
+        <div className="lg:w-[450px] w-[300px] flex flex-col space-y-2">
           {["Cachorro (menos de 1 año)", "Adulto (1-7 años)", "Senior (más de 7 años)"].map((option, idx) => (
             <OptionButton key={idx} option={option} selected={formData.edad} onSelect={(option) => handleOptionSelect("edad", option)} />
           ))}
@@ -97,7 +102,7 @@ const Macho = ({ nombre, onContinue, onDataChange }) => {
         <button
           onClick={() => handleNext("edad")}
           disabled={isNextButtonDisabled("edad")}
-          className={`mt-[30px] font-quicksand p-[10px] px-[25px] text-white text-[20px] rounded-[20px] font-semibold ${!isNextButtonDisabled("edad") ? "bg-[#E66C55]" : "bg-gray-300 text-gray-500 cursor-not-allowed"}`}
+          className={`mt-[30px] mb-[30px] font-quicksand p-[10px] px-[25px] text-white text-[20px] rounded-[20px] font-semibold hover:bg-primary hover:text-[#3d3d3d] transition ${!isNextButtonDisabled("edad") ? "bg-[#E66C55]" : "bg-gray-300 text-gray-500 cursor-not-allowed"}`}
         >
           Continuar
         </button>
@@ -105,19 +110,19 @@ const Macho = ({ nombre, onContinue, onDataChange }) => {
 
       {/* Pregunta 3 */}
       <div className={`${currentStep === 2 ? "block" : "hidden"} flex flex-col items-center`}>
-        <div className="w-[110px] h-[110px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
-          <img src={images.perro} alt="Perro" className="w-[80px] h-[80px]" />
+        <div className="w-[80px] h-[80px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
+          <img src={images.perro} alt="Perro" className="w-[50px] h-[50px]" />
         </div>
-        <h2 className="font-quicksand font-semibold text-font text-[25px] pb-[15px]">¿Qué silueta representa mejor a {nombre}?</h2>
-        <div className="w-[450px] flex flex-col space-y-2">
-          {["Delgada", "Peso ideal", "Sobrepeso", "Obesa"].map((option, idx) => (
+        <h2 className="font-quicksand font-semibold text-font text-center lg:text-[25px] text-[20px] px-[20px] pb-[15px]">¿Qué silueta representa mejor a {nombre}?</h2>
+        <div className="lg:w-[450px] w-[300px] flex flex-col space-y-2">
+          {["Delgado", "Peso ideal", "Sobrepeso", "Obeso"].map((option, idx) => (
             <OptionButton key={idx} option={option} selected={formData.silueta} onSelect={(option) => handleOptionSelect("silueta", option)} />
           ))}
         </div>
         <button
           onClick={() => handleNext("silueta")}
           disabled={isNextButtonDisabled("silueta")}
-          className={`mt-[30px] font-quicksand p-[10px] px-[25px] text-white text-[20px] rounded-[20px] font-semibold ${!isNextButtonDisabled("silueta") ? "bg-[#E66C55]" : "bg-gray-300 text-gray-500 cursor-not-allowed"}`}
+          className={`mt-[30px] mb-[30px] font-quicksand p-[10px] px-[25px] text-white text-[20px] rounded-[20px] font-semibold hover:bg-primary hover:text-[#3d3d3d] transition ${!isNextButtonDisabled("silueta") ? "bg-[#E66C55]" : "bg-gray-300 text-gray-500 cursor-not-allowed"}`}
         >
           Continuar
         </button>
@@ -125,10 +130,10 @@ const Macho = ({ nombre, onContinue, onDataChange }) => {
 
       {/* Pregunta 4 */}
       <div className={`${currentStep === 3 ? "block" : "hidden"} flex flex-col items-center`}>
-      <div className="w-[110px] h-[110px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
-          <img src={images.perro} alt="Perro" className="w-[80px] h-[80px]" />
+      <div className="w-[80px] h-[80px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
+          <img src={images.perro} alt="Perro" className="w-[50px] h-[50px]" />
       </div>
-      <h2 className="font-quicksand font-semibold text-font text-[25px] pb-[15px]">El peso de {nombre} es más o menos de</h2>
+      <h2 className="font-quicksand font-semibold text-font text-center px-[20px] lg:text-[25px] text-[20px] pb-[15px]">El peso de {nombre} es más o menos de</h2>
       
       <div className="relative w-[200px]">
           <input
@@ -146,7 +151,7 @@ const Macho = ({ nombre, onContinue, onDataChange }) => {
       <button
           onClick={() => handleNext("peso")}
           disabled={isNextButtonDisabled("peso")}
-          className={`mt-[30px] font-quicksand p-[10px] px-[25px] text-white text-[20px] rounded-[20px] font-semibold ${!isNextButtonDisabled("peso") ? "bg-[#E66C55]" : "bg-gray-300 text-gray-500 cursor-not-allowed"}`}
+          className={`mt-[30px] mb-[30px] mb-[30px] font-quicksand p-[10px] px-[25px] text-white text-[20px] rounded-[20px] font-semibold hover:bg-primary hover:text-[#3d3d3d] transition ${!isNextButtonDisabled("peso") ? "bg-[#E66C55]" : "bg-gray-300 text-gray-500 cursor-not-allowed"}`}
       >
           Continuar
       </button>
@@ -158,7 +163,7 @@ const Macho = ({ nombre, onContinue, onDataChange }) => {
         <button
           onClick={() => handleNext("actividad")}
           disabled={isNextButtonDisabled("actividad")}
-          className={`font-quicksand p-[10px] px-[25px] text-white text-[20px] rounded-[20px] font-semibold ${!isNextButtonDisabled("actividad") ? "bg-[#E66C55]" : "bg-gray-300 text-gray-500 cursor-not-allowed"}`}
+          className={`mt-[30px] mb-[30px] font-quicksand p-[10px] px-[25px] text-white text-[20px] rounded-[20px] font-semibold hover:bg-primary hover:text-[#3d3d3d] transition ${!isNextButtonDisabled("actividad") ? "bg-[#E66C55]" : "bg-gray-300 text-gray-500 cursor-not-allowed"}`}
         >
           Continuar
         </button>
@@ -166,19 +171,19 @@ const Macho = ({ nombre, onContinue, onDataChange }) => {
 
       {/* Pregunta 6 */}
       <div className={`${currentStep === 5 ? "block" : "hidden"} flex flex-col items-center`}>
-        <SeleccionPatologia onPatologiaSeleccionada={(respuesta, patologia) => {
-          handleOptionSelect("patologia", respuesta);
+        <SeleccionPatologia onPatologiaSeleccionada={(patologia) => {
+          handleOptionSelect("patologia", patologia);
           setFormData({ ...formData, patologia });
         }} onContinue={() => handleNext("patologia")} />
       </div>
 
       {/* Pregunta 7 */}
       <div className={`${currentStep === 6 ? "block" : "hidden"} flex flex-col items-center`}>
-        <Comidas nombre={nombre} onChange={(respuesta) => setFormData({ ...formData, comida: respuesta })} />
+        <Comidas nombre={nombre} onChange={(comida) => handleOptionSelect("comida", comida)} />
         <button
           onClick={() => handleNext("comida")}
           disabled={isNextButtonDisabled("comida")}
-          className={`font-quicksand p-[10px] px-[25px] text-white text-[20px] rounded-[20px] font-semibold ${!isNextButtonDisabled("comida") ? "bg-[#E66C55]" : "bg-gray-300 text-gray-500 cursor-not-allowed"}`}
+          className={`mb-[30px] font-quicksand p-[10px] px-[25px] text-white text-[20px] rounded-[20px] font-semibold hover:bg-primary hover:text-[#3d3d3d] transition ${!isNextButtonDisabled("comida") ? "bg-[#E66C55]" : "bg-gray-300 text-gray-500 cursor-not-allowed"}`}
         >
           Continuar
         </button>
@@ -186,7 +191,7 @@ const Macho = ({ nombre, onContinue, onDataChange }) => {
 
       {/* Pregunta 8 */}
       <div className={`${currentStep === 7 ? "block" : "hidden"} flex flex-col items-center`}>
-        <Humano nombre={nombre} onSave={(data) => setFormData({ ...formData, contacto: data })} onContinue={onContinue} />
+        <Humano nombre={nombre}  onSave={(data) => handleOptionSelect("contacto", data)} onContinue={onContinue} />    
       </div>
     </div>
   );

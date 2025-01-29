@@ -33,20 +33,24 @@ const Comidas = ({ nombre, onChange }) => {
   const handleChange = (e) => {
     const value = parseInt(e.target.value, 10); // Convertir el valor a número
     setSelectedValue(value);
-    if (onChange) onChange(value); // Llamar al prop `onChange` con el valor
+
+    const selectOption = options.find((option) => option.value === value); // Encontrar el nivel actual
+    if (onChange && selectOption) {
+      onChange(selectOption); // Enviar ambos datos al padre
+    }
   };
 
   const currentOption = options.find(option => option.value === selectedValue) || options[0];
 
   return (
     <div className="flex flex-col items-center pb-5">
-      <h2 className="font-quicksand font-semibold text-font text-[25px] pb-[15px]">
-        ¿Qué crítico gastronómico es tu perro? 🍽️
+      <h2 className="font-quicksand font-semibold text-font lg:text-[25px] text-[18px] pb-[15px]">
+        ¿Qué crítico gastronómico es {nombre}? 🍽️
       </h2>
       <p className="text-gray-600 mb-4">
-        Elige la opción que mejor lo describa a {nombre}
+        Elige la opción que mejor lo describa
       </p>
-      <div className="relative w-full max-w-md">
+      <div className="relative lg:w-full w-[300px] max-w-md">
         <input
           type="range"
           min="1"
@@ -54,7 +58,7 @@ const Comidas = ({ nombre, onChange }) => {
           step="1" // Solo valores enteros
           value={selectedValue}
           onChange={handleChange}
-          className="w-full appearance-none bg-gray-300 h-2 rounded-full outline-none cursor-pointer accent-[#E66C55] mt-5"
+          className="font-quicksand w-full appearance-none bg-gray-300 h-2 rounded-full outline-none cursor-pointer accent-[#E66C55] mt-5"
         />
         <div className="flex justify-between text-sm font-quicksand mt-2">
           {options.map((option) => (
@@ -70,7 +74,7 @@ const Comidas = ({ nombre, onChange }) => {
           alt={currentOption.label}
           className="w-[150px] h-[150px] mr-4 my-5"
         />
-        <div className="bg-[#EDF8F8] p-4 rounded-lg shadow-md w-[450px]">
+        <div className="bg-[#EDF8F8] p-4 rounded-lg shadow-md lg:w-[450px] w-[300px] text-center">
           <p className="font-quicksand text-sm">
             <span className="font-bold">{currentOption.label}:</span> {currentOption.description}
           </p>
