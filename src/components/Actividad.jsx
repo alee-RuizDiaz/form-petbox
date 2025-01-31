@@ -13,40 +13,43 @@ const Actividad = ({ nombre, onChange }) => {
       label: "Alfombra",
       description: "Perro alfombra: paseos diarios de menos de 1h. Lo que más le gusta es echarse una buena siesta 😴 y estar bien tranquilita.",
       image: Alfombra,
+      nivel: 2,
     },
     {
       value: 2,
       label: "Zen",
       description: "Perro zen: paseos diarios de 1 a 2h. Sabe disfrutar de buenas caminatas, pero también sabe cuándo descansar 😴",
       image: Zen,
+      nivel: 2.25,
     },
     {
       value: 3,
       label: "Terremoto",
       description: "Perro terremoto: paseos diarios de más de 2h. ¡Un torbellino de energía! 💪",
       image: Terremoto,
+      nivel: 2.5,
     },
     {
       value: 4,
       label: "Deportista",
       description: "Perro deportista: paseos diarios intensos y sesiones de ejercicio extra. ¡Ama correr, saltar y estar en movimiento todo el día! 🏃‍♀️💨",
       image: Deportista,
+      nivel: 4.25,
     },
   ];
 
   const handleChange = (e) => {
-    const value = parseInt(e.target.value, 10); // Convertir el valor a número
+    const value = parseInt(e.target.value, 10);
     setSelectedValue(value);
-  
-    const selectedLevel = levels.find((level) => level.value === value); // Encontrar el nivel actual
-    if (onChange && selectedLevel) {
-      onChange({ value: selectedLevel.value, label: selectedLevel.label }); // Enviar ambos datos al padre
-    }
+    const selectedLevel = levels.find((level) => level.value === value);
+    onChange(selectedLevel); // Pasar el objeto completo de la opción seleccionada
   };
-  
-  
 
-  const currentLevel = levels.find(level => level.value === selectedValue) || levels[0];
+  const handleSelectedLevel = (level) => {
+    setSelectedValue(level.value);
+  };
+
+  const currentLevel = levels.find((level) => level.value === selectedValue) || levels[0];
 
   return (
     <div className="flex flex-col items-center pb-5">
@@ -68,9 +71,9 @@ const Actividad = ({ nombre, onChange }) => {
         />
         <div className="flex justify-between text-sm font-quicksand mt-2">
           {levels.map((level) => (
-            <span key={level.value} className="text-center font-quicksand">
-              {level.label}
-            </span>
+            <div key={level.value} onClick={() => handleSelectedLevel(level)}>
+              <span className="text-center font-quicksand">{level.label}</span>
+            </div>
           ))}
         </div>
       </div>
@@ -91,6 +94,6 @@ const Actividad = ({ nombre, onChange }) => {
   );
 };
 
-export default Actividad;
+export default Actividad; 
 
 

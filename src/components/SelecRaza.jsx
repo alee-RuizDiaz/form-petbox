@@ -5,6 +5,8 @@ const SeleccionarRaza = ({ onContinue, onRazaSeleccionada }) => {
   const [raza, setRaza] = useState("");
   const [isOpen, setIsOpen] = useState(false); // Controla si el menú está abierto
   const [searchTerm, setSearchTerm] = useState(""); // Controla el término de búsqueda
+  const [porcentaje, setPorcentaje] = useState(0);
+
 
   const options = [
     "Mestizo",
@@ -82,7 +84,7 @@ const SeleccionarRaza = ({ onContinue, onRazaSeleccionada }) => {
       "Dogo Alemán",
     ] },
   ];
-
+  
   // Filtrar opciones basado en el término de búsqueda
   const filteredOptions = options.map((option) => {
     if (typeof option === "string") {
@@ -98,12 +100,22 @@ const SeleccionarRaza = ({ onContinue, onRazaSeleccionada }) => {
   }).filter(Boolean);
 
   const handleSelect = (value) => {
-    setRaza(value); // Actualiza el estado interno
-    setIsOpen(false); // Cierra el menú
-    setSearchTerm(""); // Limpia el campo de búsqueda
-    onRazaSeleccionada(value); // Llama a la función del padre
+    setRaza(value);
+    setIsOpen(false);
+    setSearchTerm("");
+    
+    // Verificar si la raza pertenece a "Perros mini"
+    const esMini = options.find(
+      (option) => option.category === "Perros mini" && option.breeds.includes(value)
+    );
+    
+    const porcentajeSeleccionado = esMini ? 5 : 0;
+    setPorcentaje(porcentajeSeleccionado);
+    
+    // Pasar la raza y el porcentaje al padre
+    onRazaSeleccionada(value, porcentajeSeleccionado);
   };
-
+  
   return (
     <div className="flex flex-col items-center justify-start">
       <div className="w-[80px] h-[80px] lg:w-[80px] lg:h-[80px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-5">
@@ -168,7 +180,7 @@ const SeleccionarRaza = ({ onContinue, onRazaSeleccionada }) => {
             : "bg-gray-300 text-gray-500 cursor-not-allowed"
         }`}
         disabled={!raza}
-        onClick={() => onContinue(raza)}
+        onClick={() => onContinue(raza, porcentaje)}
       >
         Continuar
       </button>

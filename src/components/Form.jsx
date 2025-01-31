@@ -5,12 +5,16 @@ import Perro from "../assets/img/perro.svg";
 import Nombre from "../assets/img/nombre.png";
 import Edad from "../assets/img/edad.png";
 import Macho from "./Macho"; 
+import Result from "./Result";
 
 const Form = () => {
   const [currentStep, setCurrentStep] = useState(-1); // Inicia con -1 para la introducción
   const [formData, setFormData] = useState({});
   const [isNextEnabled, setIsNextEnabled] = useState(false);
-  const [selectedRaza, setSelectedRaza] = useState("");
+  const [selectedRaza, setSelectedRaza] = useState({raza: "", porcentaje: 0});
+  const [totalPorcentaje, setTotalPorcentaje] = useState(0);
+  const [porcentajeHembra, setPorcentajeHembra] = useState(0);
+  const [comida, setComida] = useState(null);
 
   const handleInputChange = (e) => {
     const value = e.target.value;
@@ -18,8 +22,8 @@ const Form = () => {
     setIsNextEnabled(value.trim() !== ""); // Habilitar el botón solo si hay texto
   };
 
-  const handleRazaSeleccionada = (raza) => {
-    setSelectedRaza(raza);
+  const handleRazaSeleccionada = (raza, porcentaje) => {
+    setSelectedRaza({ raza, porcentaje: Number(porcentaje) || 0 });
   };
 
   const handleOptionSelect = (step, option) => {
@@ -37,7 +41,7 @@ const Form = () => {
   const handleHembraDataChange = (data) => {
     setFormData((prev) => ({
       ...prev,
-      hembra: { ...prev.macho, ...data },
+      hembra: { ...prev.hembra, ...data },
     }));
   };
   
@@ -53,19 +57,50 @@ const Form = () => {
   };
   
 
-  const handleRazaSelection = (raza) => {
+  const handleRazaSelection = (raza, porcentaje) => {
     setFormData({ ...formData, 0: raza }); // Guardamos la raza en el paso 0
+    setTotalPorcentaje(porcentaje); // Actualizamos la puntuación
     handleNext();
   };
 
   useEffect(() => {
-    // Activar el botón automáticamente si ya hay datos guardados en un paso
+    setTotalPorcentaje(selectedRaza.porcentaje + porcentajeHembra);
+  }, [selectedRaza.porcentaje, porcentajeHembra]);
+
+  useEffect(() => {
     if (formData[currentStep]) {
       setIsNextEnabled(true);
     } else {
       setIsNextEnabled(false);
     }
   }, [currentStep, formData]);
+
+  //Cuenta
+  function redondearRacion(racionDiaria) {
+    if (racionDiaria <= 124) {
+      return Math.floor(racionDiaria);
+    } else if (racionDiaria >= 125 && racionDiaria <= 165) {
+      return 150;
+    } else if (racionDiaria >= 166 && racionDiaria <= 199) {
+      return 200;
+    } else {
+      const base = Math.floor(racionDiaria / 100) * 100;
+      if (racionDiaria <= base + 25) {
+        return base;
+      } else if (racionDiaria <= base + 65) {
+        return base + 50;
+      } else {
+        return base + 100;
+      }
+    }
+  }
+
+  const porcentaje = totalPorcentaje / 3;
+  const promedio = porcentaje * formData.hembra?.peso;
+  const ajuste = promedio * 10;
+
+  const racionDiaria = ajuste; // reemplaza con tu valor
+  const racionRedondeada = redondearRacion(racionDiaria);
 
   // Renderizar la introducción
   if (currentStep === -1) {
@@ -96,7 +131,6 @@ const Form = () => {
   if (currentStep === 0) {
     return <SeleccionarRaza onContinue={handleRazaSelection} onRazaSeleccionada={handleRazaSeleccionada} />;
   }
-
   // Paso de nombre
   if (currentStep === 1) {
     return (
@@ -128,7 +162,7 @@ const Form = () => {
           </button>
         </div>
         <span className="p-4 mt-[50px] bg-[#EDF8F8] rounded-[10px] font-quicksand lg:text-[14px] text-center text-[13px] px-[20px] lg:w-[370px] w-[320px]">
-          ¡Qué emoción! 🥰 Estás a punto de mejorar la vida de tu {selectedRaza} a través de una alimentación 100% natural.
+          ¡Qué emoción! 🥰 Estás a punto de mejorar la vida de tu {selectedRaza.raza} a través de una alimentación 100% natural.
         </span>
       </div>
     );
@@ -184,17 +218,43 @@ const Form = () => {
   }
 
   if (currentStep === 3 && formData[2] === "Hembra") {
-    return <Hembra nombre={formData[1]} onContinue={() => setCurrentStep(4)} onDataChange={handleHembraDataChange} />;
+    return <Hembra
+        nombre={formData[1]} 
+        onContinue={() => setCurrentStep(4)} 
+        onDataChange={(data) => handleHembraDataChange(data)} 
+        onComplete={(puntuacion) => {
+          setPorcentajeHembra(puntuacion); // Actualiza el estado porcentajeHembra
+          setFormData((prev) => ({ ...prev, hembra: { ...prev.hembra, puntuacion } }));
+        }}
+        setPorcentajeHembra={setPorcentajeHembra}
+        onChangeComida={comida => setComida(comida)}
+      />;
   }
   
   // Renderizar componente Macho si se selecciona "Macho"
   if (currentStep === 3 && formData[2] === "Macho") {
-    return <Macho nombre={formData[1]} onContinue={() => setCurrentStep(4)} onDataChange={handleMachoDataChange} />;
+    return <Macho
+    nombre={formData[1]} 
+    onContinue={() => setCurrentStep(4)} 
+    onDataChange={(data) => handleHembraDataChange(data)} 
+    onComplete={(puntuacion) => {
+      setPorcentajeHembra(puntuacion); // Actualiza el estado porcentajeHembra
+      setFormData((prev) => ({ ...prev, macho: { ...prev.hembra, puntuacion } }));
+    }}
+    setPorcentajeHembra={setPorcentajeHembra}
+    onChangeComida={comida => setComida(comida)}
+  />;
   }
 
   // Renderizar mensaje final
   if (currentStep === 4) {
     return (
+
+    <Result nombre={formData[1]} racion={racionRedondeada}/>
+      
+    );
+      
+      {/*
       <div className="flex flex-col items-center">
         <h2 className="font-quicksand font-semibold text-font text-[25px] pb-[15px]">
           Datos recolectados:
@@ -202,7 +262,7 @@ const Form = () => {
         <span>
           <ul>
             <li>
-              Raza: {selectedRaza}
+              Raza: {selectedRaza.raza}
             </li>
             <li>
               Nombre: {formData[1]}
@@ -211,7 +271,9 @@ const Form = () => {
               Género: {formData[2]}
             </li>
             <li>
-              Esterilizado: {formData.macho?.esterilizado ? "Sí" : "No"}
+              Esterilizada: {formData.macho?.esterilizado}
+              <br/>
+              Lactante: {formData.macho?.lactanteOGestante}
             </li>
             <li>
               Edad: {formData.macho?.edad}
@@ -229,16 +291,24 @@ const Form = () => {
               Patología: {formData.macho?.patologia}
             </li>
             <li>
-              Comida: {formData.macho?.comida?.label}
+              Comida: {comida?.label}
             </li>
             <li>
               Email: {formData.macho?.contacto?.email}<br/>
               Celular: {formData.macho?.contacto?.telefono}
             </li>
+            <li>
+            Porcentaje Raza: {selectedRaza.porcentaje}%<br/>
+            Porcentaje Hembra: {porcentajeHembra}%<br/>
+            Total porcentaje: {totalPorcentaje}%   
+            </li>
+            <li>
+              Racion diaria: {racionRedondeada} gramos
+            </li>
+
           </ul>
         </span>
-      </div>
-    );
+      </div>*/}
   }
 };
 

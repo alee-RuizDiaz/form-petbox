@@ -1,0 +1,117 @@
+import React from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
+import Cerdo from "../assets/img/Cerdo.png";
+import Carne from "../assets/img/Carne.jpg";
+import Pescado from "../assets/img/Pescado.png";
+import Pollo from "../assets/img/Pollo.jpg";
+
+const Result = ({ nombre, racion }) => {
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 3000,
+    };
+
+    return (
+        <div className="flex flex-col items-center pb-5">
+            <h2 className="font-quicksand font-semibold text-font lg:text-[40px] text-[20px] pb-[15px] text-center">
+                Estás a punto de cambiar la vida de {nombre}
+            </h2>
+            <span className="font-quicksand font-semibold text-font lg:text-[16px] text-[16px] pb-[15px] text-center lg:w-[40%]">
+            El plan de {nombre} está listo! Dale click al botón de WhatsApp y conversemos para coordinar el pago y que empiece a disfrutar su comida personalizada.
+            </span>
+            <div className="flex justify-between items-center pb-5 w-full lg:w-[1100px] flex-wrap pt-5">
+                <div className="w-full lg:w-[50%]">
+                    <Slider {...settings}>
+                        <div className="px-4">
+                            <img src={Cerdo} alt="Carne de cerdo" className="w-full h-auto rounded-lg" />
+                        </div>
+                        <div className="px-4">
+                            <img src={Carne} alt="Carne de res" className="w-full h-auto rounded-lg" />
+                        </div>
+                        <div className="px-4">
+                            <img src={Pescado} alt="Pescado fresco" className="w-full h-auto rounded-lg" />
+                        </div>
+                        <div className="px-4">
+                            <img src={Pollo} alt="Carne de pollo" className="w-full h-auto rounded-lg" />
+                        </div>
+                    </Slider>
+                </div>
+                <div className="relative w-full h-[250px] lg:w-[40%] flex flex-col justify-between items-center bg-[#FBF8E9] rounded-[20px] shadow-md p-6 text-center">
+                    <span className="absolute top-[-20px] bg-yellow-200 text-font font-semibold text-[16px] px-3 py-1 rounded-full">
+                        ⭐ RECOMENDADO
+                    </span>
+                    <div className="w-full mt-6">
+                        <div className="text-[25px] font-semibold text-font mb-1 font-quicksand">
+                            Su plan: <span className="text-font text-[35px]">{racion}g</span>/día
+                        </div>
+                        <div className="w-full h-[1px] bg-[#e8e8e8]"></div>
+                        <div className="mt-4 w-full">
+                            <div className="text-[16px] font-quicksand text-font font-semibold">Prueba 15 días</div>
+                        </div>
+                        <div className="inline-flex mt-2 justify-center items-center text-green-600 font-semibold text-sm bg-green-100 px-3 py-1 rounded-full mb-3">
+                            -30 % <span className="ml-2">🐾</span>
+                        </div>
+                    </div>
+                    <button className="absolute bottom-[-20px] bg-[#E66C55] text-white font-semibold font-quicksand py-3 px-5 rounded-[50px] shadow-md hover:bg-[#d65945] transition">
+                        Continuar por WhatsApp
+                    </button>
+                </div>
+            </div>
+            <div className="overflow-hidden whitespace-nowrap w-full relative pt-[50px]">
+                <div
+                    className="flex animate-scroll-left hover:pause"
+                    style={{ animation: "scroll-left 30s linear infinite" }}
+                >
+                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow text-[15px] font-quicksand">
+                        "La mejor decisión que pude hacer por mi perra 🐾"
+                    </div>
+                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow text-[15px] font-quicksand">
+                        "Estoy muy feliz con ellos. 💖"
+                    </div>
+                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow text-[15px] font-quicksand">
+                        "Ya no volveremos a la comida deshidratada nunca! 🐶"
+                    </div>
+                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow text-[15px] font-quicksand">
+                        "Ninguna comida lo hace tan feliz. 🍖"
+                    </div>
+                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow text-[15px] font-quicksand">
+                        "Muy contenta con su producto. 🐕‍🦺"
+                    </div>
+                </div>
+            </div>
+            <div className="overflow-hidden whitespace-nowrap w-full relative pt-2">
+                <div
+                    className="flex animate-scroll-right hover:pause"
+                    style={{ animation: "scroll-right 30s linear infinite" }}
+                >
+                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow text-[15px] font-quicksand">
+                        Mi perro nunca fue tan feliz. 🐕
+                    </div>
+                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow text-[15px] font-quicksand">
+                        La calidad de este producto es excelente. 👌
+                    </div>
+                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow text-[15px] font-quicksand">
+                        Mi perro ama cada comida. 😋
+                    </div>
+                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow text-[15px] font-quicksand">
+                        Estoy encantada con cómo le sienta a mi perro. 💖
+                    </div>
+                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow text-[15px] font-quicksand">
+                        Un producto increíble, ¡gracias! 🐾
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    );
+};
+
+export default Result;
+

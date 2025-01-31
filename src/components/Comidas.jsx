@@ -33,10 +33,14 @@ const Comidas = ({ nombre, onChange }) => {
   const handleChange = (e) => {
     const value = parseInt(e.target.value, 10); // Convertir el valor a número
     setSelectedValue(value);
-
+  
     const selectOption = options.find((option) => option.value === value); // Encontrar el nivel actual
-    if (onChange && selectOption) {
-      onChange(selectOption); // Enviar ambos datos al padre
+    if (selectOption && selectOption.label) {
+      if (onChange) {
+        onChange(selectOption); // Enviar el objeto completo
+      }
+    } else {
+      console.error('Error: La opción seleccionada es nula o no tiene la propiedad label.');
     }
   };
 
