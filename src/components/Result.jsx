@@ -1,11 +1,8 @@
 import React from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css"; 
-import "slick-carousel/slick/slick-theme.css";
-import Cerdo from "../assets/img/Cerdo.png";
-import Carne from "../assets/img/Carne.jpg";
-import Pescado from "../assets/img/Pescado.png";
-import Pollo from "../assets/img/Pollo.jpg";
+import Cerdo from "../assets/img/cerdo.png";
+import Carne from "../assets/img/carne.jpg";
+import Pescado from "../assets/img/pescado.png";
+import Pollo from "../assets/img/pollo.jpg";
 import { Carousel } from "@material-tailwind/react";
 
 const Result = ({ nombre, racion }) => {

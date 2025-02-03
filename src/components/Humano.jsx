@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import HumanoImg from "../assets/img/Humano.png";
+import HumanoImg from "../assets/img/humano.png";
 
 const Humano = ({ nombre, onSave, onContinue, onFinalizarHembra, onFinalizarMacho}) => {
   const [email, setEmail] = useState("");
