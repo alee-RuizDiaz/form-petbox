@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Hembra from "./Hembra";
 import SeleccionarRaza from "../components/SelecRaza";
-import Perro from "../../src/assets/img/Perro.svg";
+import Perro from "../assets/img/Perro.svg";
 import Nombre from "../assets/img/nombre.png";
 import Edad from "../assets/img/edad.png";
 import Macho from "./Macho"; 
