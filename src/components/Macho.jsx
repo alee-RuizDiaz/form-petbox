@@ -46,7 +46,6 @@ const Macho = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHemb
 
   const handleComidaChange = (comida) => {
     if (comida && comida.label) {
-      console.log('Comida seleccionada en Macho:', comida);
       onChangeComida(comida);
       onDataChange({ comida: comida.label });
       setComida(comida); // Actualiza el estado comida
@@ -294,7 +293,6 @@ const Macho = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHemb
         }}
       />
       </div>
-      {console.log(puntuacion)}
     </div>
     
   );
