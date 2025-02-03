@@ -17,7 +17,7 @@ const OptionButton = ({ option, selected, onSelect }) => (
   </button>
 );
 
-const Macho = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHembra, onChangeComida }) => {
+const Macho = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHembra, onChangeComida, onFinalizarMacho }) => {
   const [formData, setFormData] = useState({
     esterilizado: "",
     lactanteOGestante: "",
@@ -175,15 +175,15 @@ const Macho = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHemb
           <img src={images.cumple} alt="Perro" className="w-[60px] h-[60px]" />
         </div>
         <h2 className="font-quicksand font-semibold text-font text-[25px] pb-[15px]">¿Qué edad tiene {nombre}?</h2>
-        <div className="w-[450px] flex flex-col space-y-2">
+        <div className="lg:w-[450px] w-[320px] flex flex-col space-y-2">
           {["Cachorro (menos de 1 año)", "Adulto (1-7 años)", "Senior (más de 7 años)"].map((option, idx) => (
             <OptionButton key={idx} option={option} selected={formData.edad} onSelect={(option) => handleOptionSelect("edad", option)} />
           ))}
         </div>
         {formData.edad === "Cachorro (menos de 1 año)" && (
-          <div className="mt-6">
+          <div className="mt-6 flex flex-col items-center">
             <h3 className="font-quicksand font-semibold text-font text-[20px] pb-[15px] text-center">¿Qué rango de edad se ajusta mejor?</h3>
-            <div className="w-[450px] flex flex-col space-y-2">
+            <div className="lg:w-[450px] w-[320px] flex flex-col space-y-2">
               {["0-2 meses", "3-4 meses", "5-6 meses", "7-8 meses", "9-10 meses", "11 meses"].map((option, idx) => (
                 <OptionButton key={idx} option={option} selected={formData.edadDetallada} onSelect={(option) => handleOptionSelect("edadDetallada", option)} />
               ))}
@@ -201,11 +201,11 @@ const Macho = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHemb
 
       {/* Pregunta 3 */}
       <div className={`${currentStep === 2 ? "block" : "hidden"} flex flex-col items-center`}>
-        <div className="w-[110px] h-[110px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
-          <img src={images.perro} alt="Perro" className="w-[80px] h-[80px]" />
+        <div className="w-[80px] h-[80px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
+          <img src={images.perro} alt="Perro" className="w-[50px] h-[50px]" />
         </div>
-        <h2 className="font-quicksand font-semibold text-font text-[25px] pb-[15px]">¿Qué silueta representa mejor a {nombre}?</h2>
-        <div className="w-[450px] flex flex-col space-y-2">
+        <h2 className="font-quicksand font-semibold text-font text-[20px] text-center lg:text-[25px] pb-[15px]">¿Qué silueta representa mejor a {nombre}?</h2>
+        <div className="lg:w-[450px] w-[320px] flex flex-col space-y-2">
           {["Delgada", "Peso ideal", "Sobrepeso", "Obesa"].map((option, idx) => (
             <OptionButton key={idx} option={option} selected={formData.silueta} onSelect={(option) => handleOptionSelect("silueta", option)} />
           ))}
@@ -221,10 +221,10 @@ const Macho = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHemb
 
       {/* Pregunta 4 */}
       <div className={`${currentStep === 3 ? "block" : "hidden"} flex flex-col items-center`}>
-      <div className="w-[110px] h-[110px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
-          <img src={images.perro} alt="Perro" className="w-[80px] h-[80px]" />
+      <div className="w-[80px] h-[80px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
+          <img src={images.perro} alt="Perro" className="w-[50px] h-[50px]" />
       </div>
-      <h2 className="font-quicksand font-semibold text-font text-[25px] pb-[15px]">El peso de {nombre} es más o menos de</h2>
+      <h2 className="font-quicksand font-semibold text-font text-[20px] lg:text-[25px] pb-[15px]">El peso de {nombre} es más o menos de</h2>
       
       <div className="relative w-[200px]">
           <input
@@ -233,6 +233,7 @@ const Macho = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHemb
           onChange={(e) => handleInputChange(e, "peso")}
           placeholder="Peso"
           maxLength="4"
+          min="1"
           onInput={(e) => e.target.value = e.target.value.slice(0, 4)} // Limita el máximo de caracteres a 4
           className="w-full p-3 pr-10 border border-gray-300 rounded-lg text-center placeholder-gray-400"
           />
@@ -283,7 +284,8 @@ const Macho = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHemb
       {/* Pregunta 8 */}
       <div className={`${currentStep === 7 ? "block" : "hidden"} flex flex-col items-center`}>
       <Humano 
-        nombre={nombre}  
+        nombre={nombre} 
+        onFinalizarMacho={onFinalizarMacho} 
         onSave={(data) => handleOptionSelect("contacto", data)} 
         onContinue={() => {
           onContinue();

@@ -102,6 +102,67 @@ const Form = () => {
   const racionDiaria = ajuste; // reemplaza con tu valor
   const racionRedondeada = redondearRacion(racionDiaria);
 
+  const datosMacho = {
+    raza: selectedRaza.raza,
+    nombre: formData[1],
+    genero: formData[2],
+    esterilizada: formData.macho?.esterilizado,
+    lactante: formData.macho?.lactanteOGestante,
+    edad: formData.macho?.edad,
+    silueta: formData.macho?.silueta,
+    peso: formData.macho?.peso,
+    actividad: formData.macho?.actividad?.label,
+    patologia: formData.macho?.patologia,
+    comida: comida?.label,
+    contacto: {
+      email: formData.macho?.contacto?.email,
+      telefono: formData.macho?.contacto?.telefono,
+    },
+  };
+
+  const datosHembra = {
+    raza: selectedRaza.raza,
+    nombre: formData[1],
+    genero: formData[2],
+    esterilizada: formData.hembra?.esterilizado,
+    lactante: formData.hembra?.lactanteOGestante,
+    edad: formData.hembra?.edad,
+    silueta: formData.hembra?.silueta,
+    peso: formData.hembra?.peso,
+    actividad: formData.hembra?.actividad?.label,
+    patologia: formData.hembra?.patologia,
+    comida: comida?.label,
+    contacto: {
+      email: formData.hembra?.contacto?.email,
+      telefono: formData.hembra?.contacto?.telefono,
+    },
+  };
+  
+  const enviarDatos = async (datos) => {
+    try {
+      const response = await fetch("https://script.google.com/macros/s/AKfycbwhZ_6OP9QbtYSNgmmT4h3dVyX0YJ0v2tm3rWD2S3pJHY0VRrgYHjc0aa8mdnxevbmZ/exec", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(datos),
+      });
+  
+      console.log("Datos enviados correctamente");
+    } catch (error) {
+      console.error("Error al enviar los datos:", error);
+    }
+  };
+
+  const handleFinalizarHembra = () => {
+    enviarDatos(datosHembra);
+  };
+
+  const handleFinalizarMacho = () => {
+    enviarDatos(datosMacho);
+  };
+  
+
   // Renderizar la introducción
   if (currentStep === -1) {
     return (
@@ -219,7 +280,8 @@ const Form = () => {
 
   if (currentStep === 3 && formData[2] === "Hembra") {
     return <Hembra
-        nombre={formData[1]} 
+        nombre={formData[1]}
+        onFinalizarHembra={handleFinalizarHembra}
         onContinue={() => setCurrentStep(4)} 
         onDataChange={(data) => handleHembraDataChange(data)} 
         onComplete={(puntuacion) => {
@@ -234,7 +296,8 @@ const Form = () => {
   // Renderizar componente Macho si se selecciona "Macho"
   if (currentStep === 3 && formData[2] === "Macho") {
     return <Macho
-    nombre={formData[1]} 
+    nombre={formData[1]}
+    onFinalizarMacho={handleFinalizarMacho}
     onContinue={() => setCurrentStep(4)} 
     onDataChange={(data) => handleHembraDataChange(data)} 
     onComplete={(puntuacion) => {
@@ -249,66 +312,8 @@ const Form = () => {
   // Renderizar mensaje final
   if (currentStep === 4) {
     return (
-
     <Result nombre={formData[1]} racion={racionRedondeada}/>
-      
     );
-      
-      {/*
-      <div className="flex flex-col items-center">
-        <h2 className="font-quicksand font-semibold text-font text-[25px] pb-[15px]">
-          Datos recolectados:
-        </h2>
-        <span>
-          <ul>
-            <li>
-              Raza: {selectedRaza.raza}
-            </li>
-            <li>
-              Nombre: {formData[1]}
-            </li>
-            <li>
-              Género: {formData[2]}
-            </li>
-            <li>
-              Esterilizada: {formData.macho?.esterilizado}
-              <br/>
-              Lactante: {formData.macho?.lactanteOGestante}
-            </li>
-            <li>
-              Edad: {formData.macho?.edad}
-            </li>
-            <li>
-              Silueta: {formData.macho?.silueta}
-            </li>
-            <li>
-              Peso: {formData.macho?.peso} Kg
-            </li>
-            <li>
-              Nivel de actividad: {formData.macho?.actividad.label}
-            </li>
-            <li>
-              Patología: {formData.macho?.patologia}
-            </li>
-            <li>
-              Comida: {comida?.label}
-            </li>
-            <li>
-              Email: {formData.macho?.contacto?.email}<br/>
-              Celular: {formData.macho?.contacto?.telefono}
-            </li>
-            <li>
-            Porcentaje Raza: {selectedRaza.porcentaje}%<br/>
-            Porcentaje Hembra: {porcentajeHembra}%<br/>
-            Total porcentaje: {totalPorcentaje}%   
-            </li>
-            <li>
-              Racion diaria: {racionRedondeada} gramos
-            </li>
-
-          </ul>
-        </span>
-      </div>*/}
   }
 };
 

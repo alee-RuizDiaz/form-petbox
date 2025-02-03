@@ -6,44 +6,44 @@ import Cerdo from "../assets/img/Cerdo.png";
 import Carne from "../assets/img/Carne.jpg";
 import Pescado from "../assets/img/Pescado.png";
 import Pollo from "../assets/img/Pollo.jpg";
+import { Carousel } from "@material-tailwind/react";
 
 const Result = ({ nombre, racion }) => {
-    const settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 3000,
-    };
 
     return (
         <div className="flex flex-col items-center pb-5">
-            <h2 className="font-quicksand font-semibold text-font lg:text-[40px] text-[20px] pb-[15px] text-center">
+            <h2 className="font-quicksand font-semibold text-font lg:text-[40px] text-[25px] pb-[15px] text-center px-[25px]">
                 Estás a punto de cambiar la vida de {nombre}
             </h2>
-            <span className="font-quicksand font-semibold text-font lg:text-[16px] text-[16px] pb-[15px] text-center lg:w-[40%]">
+            <span className="font-quicksand font-semibold text-font lg:text-[16px] text-[14px] pb-[15px] text-center lg:w-[40%] w-[320px]">
             El plan de {nombre} está listo! Dale click al botón de WhatsApp y conversemos para coordinar el pago y que empiece a disfrutar su comida personalizada.
             </span>
-            <div className="flex justify-between items-center pb-5 w-full lg:w-[1100px] flex-wrap pt-5">
+            <div className="flex justify-between items-center pb-5 w-[350px] md:w-[420px] lg:w-[1100px] flex-wrap pt-5">
                 <div className="w-full lg:w-[50%]">
-                    <Slider {...settings}>
-                        <div className="px-4">
-                            <img src={Cerdo} alt="Carne de cerdo" className="w-full h-auto rounded-lg" />
-                        </div>
-                        <div className="px-4">
-                            <img src={Carne} alt="Carne de res" className="w-full h-auto rounded-lg" />
-                        </div>
-                        <div className="px-4">
-                            <img src={Pescado} alt="Pescado fresco" className="w-full h-auto rounded-lg" />
-                        </div>
-                        <div className="px-4">
-                            <img src={Pollo} alt="Carne de pollo" className="w-full h-auto rounded-lg" />
-                        </div>
-                    </Slider>
+                <Carousel className="rounded-xl">
+                    <img
+                        src={Cerdo}
+                        alt="image 1"
+                        className="h-full w-full object-cover"
+                    />
+                    <img
+                        src={Carne}
+                        alt="image 2"
+                        className="h-full w-full object-cover"
+                    />
+                    <img
+                        src={Pescado}
+                        alt="image 3"
+                        className="h-full w-full object-cover"
+                    />
+                    <img
+                        src={Pollo}
+                        alt="image 3"
+                        className="h-full w-full object-cover"
+                    />
+                </Carousel>
                 </div>
-                <div className="relative w-full h-[250px] lg:w-[40%] flex flex-col justify-between items-center bg-[#FBF8E9] rounded-[20px] shadow-md p-6 text-center">
+                <div className="relative w-full mt-[60px] h-[250px] lg:w-[40%] flex flex-col justify-between items-center bg-[#FBF8E9] rounded-[20px] shadow-md p-6 text-center">
                     <span className="absolute top-[-20px] bg-yellow-200 text-font font-semibold text-[16px] px-3 py-1 rounded-full">
                         ⭐ RECOMENDADO
                     </span>
@@ -64,46 +64,46 @@ const Result = ({ nombre, racion }) => {
                     </button>
                 </div>
             </div>
-            <div className="overflow-hidden whitespace-nowrap w-full relative pt-[50px]">
+            <div className="overflow-hidden lg:w-full w-[350px] relative pt-[50px]">
                 <div
                     className="flex animate-scroll-left hover:pause"
                     style={{ animation: "scroll-left 30s linear infinite" }}
                 >
-                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow text-[15px] font-quicksand">
+                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow lg:text-[15px] text-[13px] font-quicksand">
                         "La mejor decisión que pude hacer por mi perra 🐾"
                     </div>
-                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow text-[15px] font-quicksand">
+                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow lg:text-[15px] text-[13px] font-quicksand">
                         "Estoy muy feliz con ellos. 💖"
                     </div>
-                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow text-[15px] font-quicksand">
+                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow lg:text-[15px] text-[13px] font-quicksand">
                         "Ya no volveremos a la comida deshidratada nunca! 🐶"
                     </div>
-                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow text-[15px] font-quicksand">
+                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow lg:text-[15px] text-[13px] font-quicksand">
                         "Ninguna comida lo hace tan feliz. 🍖"
                     </div>
-                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow text-[15px] font-quicksand">
+                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow lg:text-[15px] text-[13px] font-quicksand">
                         "Muy contenta con su producto. 🐕‍🦺"
                     </div>
                 </div>
             </div>
-            <div className="overflow-hidden whitespace-nowrap w-full relative pt-2">
+            <div className="overflow-hidden whitespace-nowrap lg:w-full w-[350px] relative pt-2 pb-[50px]">
                 <div
                     className="flex animate-scroll-right hover:pause"
                     style={{ animation: "scroll-right 30s linear infinite" }}
                 >
-                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow text-[15px] font-quicksand">
+                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow lg:text-[15px] text-[13px] font-quicksand">
                         Mi perro nunca fue tan feliz. 🐕
                     </div>
-                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow text-[15px] font-quicksand">
+                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow lg:text-[15px] text-[13px] font-quicksand">
                         La calidad de este producto es excelente. 👌
                     </div>
-                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow text-[15px] font-quicksand">
+                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow lg:text-[15px] text-[13px] font-quicksand">
                         Mi perro ama cada comida. 😋
                     </div>
-                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow text-[15px] font-quicksand">
+                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow lg:text-[15px] text-[13px] font-quicksand">
                         Estoy encantada con cómo le sienta a mi perro. 💖
                     </div>
-                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow text-[15px] font-quicksand">
+                    <div className="flex-shrink-0 px-2 py-4 mx-2 bg-gray-100 rounded-lg shadow lg:text-[15px] text-[13px] font-quicksand">
                         Un producto increíble, ¡gracias! 🐾
                     </div>
                 </div>
