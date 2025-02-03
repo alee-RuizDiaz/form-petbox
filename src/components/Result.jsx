@@ -16,9 +16,7 @@ const Result = ({ nombre, racion, datos }) => {
             return;
         }
     
-        try {
-            console.log("Datos enviados:", datos);
-    
+        try {   
             const response = await fetch(API_URL , {
                 method: "POST",
                 headers: {
