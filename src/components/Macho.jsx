@@ -288,8 +288,8 @@ const Macho = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHemb
         onSave={(data) => handleOptionSelect("contacto", data)} 
         onContinue={() => {
           onContinue();
-          onComplete(tempPuntuacion); // Llama a onComplete con la puntuación calculada
-          setPorcentajeHembra(tempPuntuacion); // Actualiza el estado porcentajeHembra
+          onComplete(tempPuntuacion);
+          setPorcentajeHembra(tempPuntuacion);
         }}
       />
       </div>

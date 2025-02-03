@@ -137,7 +137,9 @@ const Form = () => {
       telefono: formData.hembra?.contacto?.telefono,
     },
   };
-  
+
+
+
   const enviarDatos = async (datos) => {
     try {
       const response = await fetch("https://script.google.com/macros/s/AKfycbwhZ_6OP9QbtYSNgmmT4h3dVyX0YJ0v2tm3rWD2S3pJHY0VRrgYHjc0aa8mdnxevbmZ/exec", {
@@ -299,10 +301,10 @@ const Form = () => {
     nombre={formData[1]}
     onFinalizarMacho={handleFinalizarMacho}
     onContinue={() => setCurrentStep(4)} 
-    onDataChange={(data) => handleHembraDataChange(data)} 
+    onDataChange={(data) => handleMachoDataChange(data)} 
     onComplete={(puntuacion) => {
       setPorcentajeHembra(puntuacion); // Actualiza el estado porcentajeHembra
-      setFormData((prev) => ({ ...prev, macho: { ...prev.hembra, puntuacion } }));
+      setFormData((prev) => ({ ...prev, macho: { ...prev.macho, puntuacion } }));
     }}
     setPorcentajeHembra={setPorcentajeHembra}
     onChangeComida={comida => setComida(comida)}
@@ -311,8 +313,8 @@ const Form = () => {
 
   // Renderizar mensaje final
   if (currentStep === 4) {
-    return (
-    <Result nombre={formData[1]} racion={racionRedondeada}/>
+    return ( 
+    <Result nombre={formData[1]} racion={racionRedondeada}/>  
     );
   }
 };
