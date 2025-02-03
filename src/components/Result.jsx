@@ -12,24 +12,28 @@ const Result = ({ nombre, racion, datos }) => {
 
     const enviarDatos = async (datos) => {
         if (!datos || Object.keys(datos).length === 0) {
-            console.error("Los datos están vacíos, no se enviarán.");
-            return;
+          console.error("Los datos están vacíos, no se enviarán.");
+          return;
         }
-    
-        try {   
-            const response = await fetch(API_URL , {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(datos),
-            });
-    
-            const respuestaTexto = await response.text(); // Google Apps Script devuelve texto, no JSON
-            console.log("Respuesta del servidor:", respuestaTexto);
-            
+      
+        try {
+          const response = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(datos),
+          });
+      
+          if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+          }
+      
+          const respuestaTexto = await response.text();
+          console.log("Respuesta del servidor:", respuestaTexto);
+      
         } catch (error) {
-            console.error("Error al enviar los datos:", error);
+          console.error("Error al enviar los datos:", error);
         }
     };
 
