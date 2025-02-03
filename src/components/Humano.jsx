@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import HumanoImg from "../assets/img/humano.png";
 
-const Humano = ({ nombre, onSave, onContinue, onFinalizarHembra, onFinalizarMacho}) => {
+const Humano = ({ nombre, onSave, onContinue}) => {
   const [email, setEmail] = useState("");
   const [telefono, setTelefono] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -43,11 +43,9 @@ const Humano = ({ nombre, onSave, onContinue, onFinalizarHembra, onFinalizarMach
         onSave({ email, telefono }); // Enviar datos al padre
       }
       if (onContinue) {
-        onContinue(); // Llamar a la función onContinue
+        onContinue();
       }
     }
-    onFinalizarHembra();
-    onFinalizarMacho();
   };
 
   const isFormValid =

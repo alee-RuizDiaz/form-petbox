@@ -6,6 +6,7 @@ import Nombre from "../assets/img/Nombre.png";
 import Edad from "../assets/img/Edad.png";
 import Macho from "./Macho"; 
 import Result from "./Result";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Form = () => {
   const [currentStep, setCurrentStep] = useState(-1); // Inicia con -1 para la introducción
@@ -14,6 +15,7 @@ const Form = () => {
   const [selectedRaza, setSelectedRaza] = useState({raza: "", porcentaje: 0});
   const [totalPorcentaje, setTotalPorcentaje] = useState(0);
   const [porcentajeHembra, setPorcentajeHembra] = useState(0);
+  const [porcentajeMacho, setPorcentajeMacho] = useState(0);
   const [comida, setComida] = useState(null);
 
   const handleInputChange = (e) => {
@@ -64,8 +66,8 @@ const Form = () => {
   };
 
   useEffect(() => {
-    setTotalPorcentaje(selectedRaza.porcentaje + porcentajeHembra);
-  }, [selectedRaza.porcentaje, porcentajeHembra]);
+    setTotalPorcentaje(selectedRaza.porcentaje + porcentajeHembra + porcentajeMacho);
+  }, [selectedRaza.porcentaje, porcentajeHembra, porcentajeMacho]);
 
   useEffect(() => {
     if (formData[currentStep]) {
@@ -96,7 +98,7 @@ const Form = () => {
   }
 
   const porcentaje = totalPorcentaje / 3;
-  const promedio = porcentaje * formData.hembra?.peso;
+  const promedio = porcentaje * (formData[2] === "Hembra" ? formData.hembra?.peso : formData.macho?.peso);
   const ajuste = promedio * 10;
 
   const racionDiaria = ajuste; // reemplaza con tu valor
@@ -142,7 +144,7 @@ const Form = () => {
 
   const enviarDatos = async (datos) => {
     try {
-      const response = await fetch("https://script.google.com/macros/s/AKfycbwhZ_6OP9QbtYSNgmmT4h3dVyX0YJ0v2tm3rWD2S3pJHY0VRrgYHjc0aa8mdnxevbmZ/exec", {
+      const response = await fetch(API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -298,26 +300,31 @@ const Form = () => {
   // Renderizar componente Macho si se selecciona "Macho"
   if (currentStep === 3 && formData[2] === "Macho") {
     return <Macho
-    nombre={formData[1]}
-    onFinalizarMacho={handleFinalizarMacho}
-    onContinue={() => setCurrentStep(4)} 
-    onDataChange={(data) => handleMachoDataChange(data)} 
-    onComplete={(puntuacion) => {
-      setPorcentajeHembra(puntuacion); // Actualiza el estado porcentajeHembra
-      setFormData((prev) => ({ ...prev, macho: { ...prev.macho, puntuacion } }));
-    }}
-    setPorcentajeHembra={setPorcentajeHembra}
-    onChangeComida={comida => setComida(comida)}
-  />;
+      nombre={formData[1]}
+      onFinalizarMacho={handleFinalizarMacho}
+      onContinue={() => setCurrentStep(4)} 
+      onDataChange={(data) => handleMachoDataChange(data)} 
+      onComplete={(puntuacion) => {
+        setPorcentajeMacho(puntuacion); // Actualiza el estado porcentajeMacho
+        setFormData((prev) => ({ ...prev, macho: { ...prev.macho, puntuacion } }));
+      }}
+      setPorcentajeMacho={setPorcentajeMacho} // Pasar la función como prop
+      onChangeComida={comida => setComida(comida)}
+    />;
   }
 
   // Renderizar mensaje final
   if (currentStep === 4) {
-    return ( 
-    <Result nombre={formData[1]} racion={racionRedondeada}/>  
+    const datos = formData[2] === "Hembra" ? datosHembra : datosMacho;
+    return (
+      <Result 
+        nombre={formData[1]} 
+        racion={racionRedondeada} 
+        datos={datos} 
+      />
     );
   }
-};
+}
 
 export default Form;
 

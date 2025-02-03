@@ -17,7 +17,7 @@ const OptionButton = ({ option, selected, onSelect }) => (
   </button>
 );
 
-const Hembra = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHembra, onChangeComida, onFinalizarHembra }) => {
+const Hembra = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHembra, onChangeComida}) => {
   const [formData, setFormData] = useState({
     esterilizado: "",
     lactanteOGestante: "",
@@ -296,7 +296,6 @@ const Hembra = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHem
       <div className={`${currentStep === 7 ? "block" : "hidden"} flex flex-col items-center`}>
       <Humano 
         nombre={nombre}
-        onFinalizarHembra={onFinalizarHembra}
         onSave={(data) => handleOptionSelect("contacto", data)} 
         onContinue={() => {
           onContinue();

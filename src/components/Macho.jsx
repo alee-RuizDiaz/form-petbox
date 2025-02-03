@@ -17,7 +17,7 @@ const OptionButton = ({ option, selected, onSelect }) => (
   </button>
 );
 
-const Macho = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHembra, onChangeComida, onFinalizarMacho }) => {
+const Macho = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeMacho, onChangeComida}) => {
   const [formData, setFormData] = useState({
     esterilizado: "",
     lactanteOGestante: "",
@@ -283,13 +283,12 @@ const Macho = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHemb
       {/* Pregunta 8 */}
       <div className={`${currentStep === 7 ? "block" : "hidden"} flex flex-col items-center`}>
       <Humano 
-        nombre={nombre} 
-        onFinalizarMacho={onFinalizarMacho} 
+        nombre={nombre}  
         onSave={(data) => handleOptionSelect("contacto", data)} 
         onContinue={() => {
           onContinue();
           onComplete(tempPuntuacion);
-          setPorcentajeHembra(tempPuntuacion);
+          setPorcentajeMacho(tempPuntuacion);
         }}
       />
       </div>

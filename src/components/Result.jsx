@@ -1,12 +1,46 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Cerdo from "../assets/img/cerdo.png";
 import Carne from "../assets/img/carne.jpg";
 import Pescado from "../assets/img/pescado.png";
 import Pollo from "../assets/img/pollo.jpg";
 import { Carousel } from "@material-tailwind/react";
 
-const Result = ({ nombre, racion }) => {
+const Result = ({ nombre, racion, datos }) => {
 
+    const [enviado, setEnviado] = useState(false);
+
+    const enviarDatos = async (datos) => {
+        if (!datos || Object.keys(datos).length === 0) {
+            console.error("Los datos están vacíos, no se enviarán.");
+            return;
+        }
+    
+        try {
+            console.log("Datos enviados:", datos);
+    
+            const response = await fetch("https://script.google.com/macros/s/AKfycbwhZ_6OP9QbtYSNgmmT4h3dVyX0YJ0v2tm3rWD2S3pJHY0VRrgYHjc0aa8mdnxevbmZ/exec", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(datos),
+            });
+    
+            const respuestaTexto = await response.text(); // Google Apps Script devuelve texto, no JSON
+            console.log("Respuesta del servidor:", respuestaTexto);
+            
+        } catch (error) {
+            console.error("Error al enviar los datos:", error);
+        }
+    };
+
+    useEffect(() => {
+        if (datos && !enviado) {
+          enviarDatos(datos);
+          setEnviado(true);
+        }
+      }, [datos, enviado]);
+    
     return (
         <div className="flex flex-col items-center pb-5">
             <h2 className="font-quicksand font-semibold text-font lg:text-[40px] text-[25px] pb-[15px] text-center px-[25px]">
