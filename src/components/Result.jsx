@@ -17,7 +17,7 @@ const Result = ({ nombre, racion, datos }) => {
         }
       
         try {
-          const response = await fetch(API_URL, {
+          const response = await fetch("https://script.google.com/macros/s/AKfycbz_VXLtfWGeJsE0fM0RwvRdMPtH1i-vtzkRGhN1kXuKcVhXaZwQBQcTDHDC3L3-V-MQDw/exec", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
