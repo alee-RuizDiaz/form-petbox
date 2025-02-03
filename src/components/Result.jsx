@@ -4,6 +4,7 @@ import Carne from "../assets/img/carne.jpg";
 import Pescado from "../assets/img/pescado.png";
 import Pollo from "../assets/img/pollo.jpg";
 import { Carousel } from "@material-tailwind/react";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Result = ({ nombre, racion, datos }) => {
 
@@ -18,7 +19,7 @@ const Result = ({ nombre, racion, datos }) => {
         try {
             console.log("Datos enviados:", datos);
     
-            const response = await fetch("https://script.google.com/macros/s/AKfycbwhZ_6OP9QbtYSNgmmT4h3dVyX0YJ0v2tm3rWD2S3pJHY0VRrgYHjc0aa8mdnxevbmZ/exec", {
+            const response = await fetch(API_URL , {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

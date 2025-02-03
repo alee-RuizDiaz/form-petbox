@@ -6,7 +6,6 @@ import Nombre from "../assets/img/Nombre.png";
 import Edad from "../assets/img/Edad.png";
 import Macho from "./Macho"; 
 import Result from "./Result";
-const API_URL = import.meta.env.VITE_API_URL;
 
 const Form = () => {
   const [currentStep, setCurrentStep] = useState(-1); // Inicia con -1 para la introducción
@@ -140,33 +139,6 @@ const Form = () => {
     },
   };
 
-
-
-  const enviarDatos = async (datos) => {
-    try {
-      const response = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(datos),
-      });
-  
-      console.log("Datos enviados correctamente");
-    } catch (error) {
-      console.error("Error al enviar los datos:", error);
-    }
-  };
-
-  const handleFinalizarHembra = () => {
-    enviarDatos(datosHembra);
-  };
-
-  const handleFinalizarMacho = () => {
-    enviarDatos(datosMacho);
-  };
-  
-
   // Renderizar la introducción
   if (currentStep === -1) {
     return (
@@ -285,7 +257,6 @@ const Form = () => {
   if (currentStep === 3 && formData[2] === "Hembra") {
     return <Hembra
         nombre={formData[1]}
-        onFinalizarHembra={handleFinalizarHembra}
         onContinue={() => setCurrentStep(4)} 
         onDataChange={(data) => handleHembraDataChange(data)} 
         onComplete={(puntuacion) => {
@@ -301,7 +272,6 @@ const Form = () => {
   if (currentStep === 3 && formData[2] === "Macho") {
     return <Macho
       nombre={formData[1]}
-      onFinalizarMacho={handleFinalizarMacho}
       onContinue={() => setCurrentStep(4)} 
       onDataChange={(data) => handleMachoDataChange(data)} 
       onComplete={(puntuacion) => {
