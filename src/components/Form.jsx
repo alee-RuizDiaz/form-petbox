@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import Hembra from "./Hembra";
 import SeleccionarRaza from "../components/SelecRaza";
 import Perro from "../assets/img/Perro.svg";
-import Nombre from "../assets/img/nombre.png";
-import Edad from "../assets/img/edad.png";
+import Nombre from "../assets/img/Nombre.png";
+import Edad from "../assets/img/Edad.png";
 import Macho from "./Macho"; 
 import Result from "./Result";
 
