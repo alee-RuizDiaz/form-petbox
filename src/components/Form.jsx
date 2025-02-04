@@ -84,9 +84,32 @@ const Form = () => {
       return 150;
     } else if (racionDiaria >= 166 && racionDiaria <= 199) {
       return 200;
-    } else if (racionDiaria >= 200 && racionDiaria <= 600) {
-      const base = Math.floor(racionDiaria / 50) * 50;
-      return base;
+    } else if (racionDiaria >= 200 && racionDiaria <= 599) {
+      if (racionDiaria <= 225) {
+        return 200;
+      } else if (racionDiaria <= 265) {
+        return 250;
+      } else if (racionDiaria <= 299) {
+        return 300;
+      } else if (racionDiaria <= 325) {
+        return 300;
+      } else if (racionDiaria <= 364) {
+        return 350;
+      } else if (racionDiaria <= 399) {
+        return 400;
+      } else if (racionDiaria <= 425) {
+        return 400;
+      } else if (racionDiaria <= 465) {
+        return 450;
+      } else if (racionDiaria <= 499) {
+        return 500;
+      } else if (racionDiaria <= 525) {
+        return 500;
+      } else if (racionDiaria <= 565) {
+        return 550;
+      } else if (racionDiaria <= 599) {
+        return 600;
+      }
     } else {
       let base = Math.floor(racionDiaria / 100) * 100;
       if (racionDiaria > base + 50) {
