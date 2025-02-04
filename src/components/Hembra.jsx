@@ -6,12 +6,13 @@ import Actividad from "./Actividad";
 import SeleccionPatologia from "./Patologias";
 import Comidas from "./Comidas";
 import Humano from "./Humano";
+import Progreso from './Progress'
 
 const OptionButton = ({ option, selected, onSelect }) => (
 
   <button
     onClick={() => onSelect(option)}
-    className={`p-3 border rounded-lg text-[18px] text-center ${selected === option ? "bg-[#fe9] text-[#3d3d3d] border-[#ffc800]" : "hover:bg-gray-200"}`}
+    className={`p-3 border rounded-lg text-[16px] text-center ${selected === option ? "bg-[#fe9] text-[#3d3d3d] border-[#ffc800]" : "hover:bg-gray-200"}`}
   >
     {option}
   </button>
@@ -31,7 +32,7 @@ const Hembra = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHem
     contacto: { email: "", telefono: "" }
   });
 
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(4);
   const [puntuacion, setPuntuacion] = useState(0);
   const [tempPuntuacion, setTempPuntuacion] = useState(0);
   const [comida, setComida] = useState(null);
@@ -148,18 +149,19 @@ const Hembra = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHem
   return (
     <div>
       {/* Pregunta 1 */}
-      <div className={`${currentStep === 0 ? "block" : "hidden"} flex flex-col items-center`}>
+      <div className={`${currentStep === 4 ? "block" : "hidden"} flex flex-col items-center`}>
+        <Progreso currentStep={4} totalSteps={11}/>
         <div className="w-[80px] h-[80px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
           <img src={images.edad} alt="Perro" className="w-[50px] h-[50px]" />
         </div>
-        <h2 className="font-quicksand font-semibold lg:text-[25px] text-[20px] pb-[15px]">¿Está esterilizada?</h2>
-        <div className="flex space-x-4 mt-6">
+        <h2 className="font-quicksand font-semibold lg:text-[25px] text-[18px] pb-[15px]">¿Está esterilizada?</h2>
+        <div className="flex space-x-4 mt-2">
           <OptionButton option="Esterilizada" selected={formData.esterilizado} onSelect={() => handleOptionSelect("esterilizado", "Esterilizada")} />
           <OptionButton option="No esterilizada" selected={formData.esterilizado} onSelect={() => handleOptionSelect("esterilizado", "No esterilizada")} />
         </div>
         {formData.esterilizado === "No esterilizada" && (
           <div className="mt-6">
-            <h3 className="font-quicksand font-semibold lg:text-[24px] text-[20px] pb-[15px]">¿Está en periodo Lactante o Gestante?</h3>
+            <h3 className="font-quicksand font-semibold lg:text-[24px] text-[18px] pb-[15px]">¿Está en periodo Lactante o Gestante?</h3>
             <div className="flex space-x-4 flex justify-center">
               <OptionButton option="Sí" selected={formData.lactanteOGestante} onSelect={() => handleOptionSelect("lactanteOGestante", "Sí")} />
               <OptionButton option="No" selected={formData.lactanteOGestante} onSelect={() => handleOptionSelect("lactanteOGestante", "No")} />
@@ -174,18 +176,19 @@ const Hembra = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHem
         >
           Continuar
         </button>
-        <span className="text-center p-4 mt-[50px] bg-[#EDF8F8] rounded-[10px] font-quicksand text-[14px] w-[300px] lg:w-[450px]">
+        <span className="text-center p-4 mt-[30px] mb-[25px] bg-[#EDF8F8] rounded-[10px] font-quicksand text-[14px] w-[300px] lg:w-[450px]">
         ¿Por qué es importante? 👩‍⚕️<br />
         Después de la esterilización, se requieren ajustes en la ración, ya que el perro suele tener menor gasto calórico.
         </span>
       </div>
 
       {/* Pregunta 2 */}
-      <div className={`${currentStep === 1 ? "block" : "hidden"} flex flex-col items-center`}>
+      <div className={`${currentStep === 5 ? "block" : "hidden"} flex flex-col items-center `}>
+        <Progreso currentStep={5} totalSteps={11}/>
         <div className="w-[80px] h-[80px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
           <img src={images.cumple} alt="Perro" className="w-[50px] h-[50px]" />
         </div>
-        <h2 className="font-quicksand font-semibold text-font text-[20px] lg:text-[25px] pb-[15px]">¿Qué edad tiene {nombre}?</h2>
+        <h2 className="font-quicksand font-semibold text-font text-[18px] lg:text-[25px] pb-[15px]">¿Qué edad tiene {nombre}?</h2>
         <div className="lg:w-[450px] w-[320px] flex flex-col space-y-2">
           {["Cachorro (menos de 1 año)", "Adulto (1-7 años)", "Senior (más de 7 años)"].map((option, idx) => (
             <OptionButton key={idx} option={option} selected={formData.edad} onSelect={(option) => handleOptionSelect("edad", option)} />
@@ -193,7 +196,7 @@ const Hembra = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHem
         </div>
         {formData.edad === "Cachorro (menos de 1 año)" && (
           <div className="mt-6 flex flex-col items-center justify-center">
-            <h3 className="font-quicksand font-semibold text-font text-[20px] lg:text-[25px] pb-[15px] text-center">¿Qué rango de edad se ajusta mejor?</h3>
+            <h3 className="font-quicksand font-semibold text-font text-[18px] lg:text-[25px] pb-[15px] text-center">¿Qué rango de edad se ajusta mejor?</h3>
             <div className="lg:w-[450px] w-[320px] flex flex-col space-y-2">
               {["0-2 meses", "3-4 meses", "5-6 meses", "7-8 meses", "9-10 meses", "11 meses"].map((option, idx) => (
                 <OptionButton key={idx} option={option} selected={formData.edadDetallada} onSelect={(option) => handleOptionSelect("edadDetallada", option)} />
@@ -211,11 +214,12 @@ const Hembra = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHem
       </div>
 
       {/* Pregunta 3 */}
-      <div className={`${currentStep === 2 ? "block" : "hidden"} flex flex-col items-center`}>
+      <div className={`${currentStep === 6 ? "block" : "hidden"} flex flex-col items-center`}>
+        <Progreso currentStep={6} totalSteps={11}/>
         <div className="w-[80px] h-[80px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
           <img src={images.perro} alt="Perro" className="w-[50px] h-[50px]" />
         </div>
-        <h2 className="font-quicksand font-semibold text-font text-center lg:text-[25px] text-[20px] pb-[15px]">¿Qué silueta representa mejor a {nombre}?</h2>
+        <h2 className="font-quicksand font-semibold text-font text-center lg:text-[25px] text-[18px] pb-[15px]">¿Qué silueta representa mejor a {nombre}?</h2>
         <div className="lg:w-[450px] w-[320px] flex flex-col space-y-2">
           {["Delgada", "Peso ideal", "Sobrepeso", "Obesa"].map((option, idx) => (
             <OptionButton key={idx} option={option} selected={formData.silueta} onSelect={(option) => handleOptionSelect("silueta", option)} />
@@ -231,11 +235,12 @@ const Hembra = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHem
       </div>
 
       {/* Pregunta 4 */}
-      <div className={`${currentStep === 3 ? "block" : "hidden"} flex flex-col items-center`}>
+      <div className={`${currentStep === 7 ? "block" : "hidden"} flex flex-col items-center`}>
+      <Progreso currentStep={7} totalSteps={11}/>
       <div className="w-[80px] h-[80px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
           <img src={images.perro} alt="Perro" className="w-[50px] h-[50px]" />
       </div>
-      <h2 className="font-quicksand font-semibold text-font text-[20px] text-center lg:text-[25px] pb-[15px]">El peso de {nombre} es más o menos de</h2>
+      <h2 className="font-quicksand font-semibold text-font text-[18px] text-center lg:text-[25px] pb-[15px]">El peso de {nombre} es más o menos de</h2>
       
       <div className="relative w-[200px]">
           <input
@@ -261,19 +266,21 @@ const Hembra = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHem
       </div>
 
       {/* Pregunta 5 */}
-      <div className={`${currentStep === 4 ? "block" : "hidden"} flex flex-col items-center`}>
+      <div className={`${currentStep === 8 ? "block" : "hidden"} flex flex-col items-center`}>
+        <Progreso currentStep={8} totalSteps={11}/>
         <Actividad nombre={nombre} onChange={(actividad) => setFormData({ ...formData, actividad})} />
         <button
           onClick={() => handleNext("actividad")}
           disabled={isNextButtonDisabled("actividad")}
-          className={`mt-[30px] mb-[30px] font-quicksand p-[10px] px-[25px] text-white text-[20px] rounded-[20px] font-semibold hover:bg-primary hover:text-[#3d3d3d] transition ${!isNextButtonDisabled("actividad") ? "bg-[#E66C55]" : "bg-gray-300 text-gray-500 cursor-not-allowed"}`}
+          className={`mt-[20px] mb-[30px] font-quicksand p-[10px] px-[25px] text-white text-[20px] rounded-[20px] font-semibold hover:bg-primary hover:text-[#3d3d3d] transition ${!isNextButtonDisabled("actividad") ? "bg-[#E66C55]" : "bg-gray-300 text-gray-500 cursor-not-allowed"}`}
         >
           Continuar
         </button>
       </div>
 
       {/* Pregunta 6 */}
-      <div className={`${currentStep === 5 ? "block" : "hidden"} flex flex-col items-center`}>
+      <div className={`${currentStep === 9 ? "block" : "hidden"} flex flex-col items-center`}>
+        <Progreso currentStep={9} totalSteps={11}/>
         <SeleccionPatologia onPatologiaSeleccionada={(patologia) => {
           handleOptionSelect("patologia", patologia);
           setFormData({ ...formData, patologia });
@@ -281,7 +288,8 @@ const Hembra = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHem
       </div>
 
       {/* Pregunta 7 */}
-      <div className={`${currentStep === 6 ? "block" : "hidden"} flex flex-col items-center`}>
+      <div className={`${currentStep === 10 ? "block" : "hidden"} flex flex-col items-center`}>
+        <Progreso currentStep={10} totalSteps={11}/>
         <Comidas nombre={nombre} onChange={handleComidaChange} />
         <button
           onClick={() => handleNext("comida")}
@@ -293,7 +301,8 @@ const Hembra = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHem
       </div>
 
       {/* Pregunta 8 */}
-      <div className={`${currentStep === 7 ? "block" : "hidden"} flex flex-col items-center`}>
+      <div className={`${currentStep === 11 ? "block" : "hidden"} flex flex-col items-center`}>
+      <Progreso currentStep={11} totalSteps={11}/>
       <Humano 
         nombre={nombre}
         onSave={(data) => handleOptionSelect("contacto", data)} 

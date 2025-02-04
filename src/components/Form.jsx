@@ -6,6 +6,7 @@ import Nombre from "../assets/img/Nombre.png";
 import Edad from "../assets/img/Edad.png";
 import Macho from "./Macho"; 
 import Result from "./Result";
+import Progreso from './Progress'
 
 const Form = () => {
   const [currentStep, setCurrentStep] = useState(-1); // Inicia con -1 para la introducción
@@ -76,7 +77,6 @@ const Form = () => {
     }
   }, [currentStep, formData]);
 
-  //Cuenta
   function redondearRacion(racionDiaria) {
     if (racionDiaria <= 124) {
       return Math.floor(racionDiaria);
@@ -84,15 +84,15 @@ const Form = () => {
       return 150;
     } else if (racionDiaria >= 166 && racionDiaria <= 199) {
       return 200;
+    } else if (racionDiaria >= 200 && racionDiaria <= 600) {
+      const base = Math.floor(racionDiaria / 50) * 50;
+      return base;
     } else {
-      const base = Math.floor(racionDiaria / 100) * 100;
-      if (racionDiaria <= base + 25) {
-        return base;
-      } else if (racionDiaria <= base + 65) {
-        return base + 50;
-      } else {
-        return base + 100;
+      let base = Math.floor(racionDiaria / 100) * 100;
+      if (racionDiaria > base + 50) {
+        base += 100;
       }
+      return base;
     }
   }
 
@@ -166,12 +166,18 @@ const Form = () => {
 
   // Paso de selección de raza
   if (currentStep === 0) {
-    return <SeleccionarRaza onContinue={handleRazaSelection} onRazaSeleccionada={handleRazaSeleccionada} />;
+    return (
+      <div>
+        <Progreso currentStep={1} totalSteps={12}/>
+        <SeleccionarRaza onContinue={handleRazaSelection} onRazaSeleccionada={handleRazaSeleccionada} />
+      </div>
+    );
   }
   // Paso de nombre
   if (currentStep === 1) {
     return (
       <div className="flex flex-col items-center">
+        <Progreso currentStep={2} totalSteps={12}/>
         <div className="w-[80px] h-[80px] lg:w-[80px] lg:h-[80px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
           <img src={Nombre} alt="Perro" className="lg:w-[50px] lg:h-[50px] w-[50px] h-[50px]"/>
         </div>
@@ -185,7 +191,7 @@ const Form = () => {
           placeholder="Mi perrhijo se llama..."
           className="lg:w-[370px] w-[300px] max-w-md p-3 border border-gray-300 rounded-lg text-center placeholder-gray-400"
         />
-        <div className="text-center mt-[50px]">
+        <div className="text-center mt-[30px]">
           <button
             className={`font-quicksand p-[10px] px-[25px] text-white text-[20px] rounded-[20px] font-semibold ${
               isNextEnabled
@@ -198,7 +204,7 @@ const Form = () => {
             Continuar
           </button>
         </div>
-        <span className="p-4 mt-[50px] bg-[#EDF8F8] rounded-[10px] font-quicksand lg:text-[14px] text-center text-[13px] px-[20px] lg:w-[370px] w-[320px]">
+        <span className="p-4 mt-[30px] mb-[25px] bg-[#EDF8F8] rounded-[10px] font-quicksand lg:text-[14px] text-center text-[13px] px-[20px] lg:w-[370px] w-[320px]">
           ¡Qué emoción! 🥰 Estás a punto de mejorar la vida de tu {selectedRaza.raza} a través de una alimentación 100% natural.
         </span>
       </div>
@@ -209,6 +215,7 @@ const Form = () => {
   if (currentStep === 2) {
     return (
       <div className="flex flex-col items-center">
+        <Progreso currentStep={3} totalSteps={12}/>
         <div className="w-[80px] h-[80px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
           <img src={Edad} alt="Emoji" className="w-[50px] h-[50px]" />
         </div>
@@ -255,7 +262,9 @@ const Form = () => {
   }
 
   if (currentStep === 3 && formData[2] === "Hembra") {
-    return <Hembra
+    return (
+     <div>
+      <Hembra
         nombre={formData[1]}
         onContinue={() => setCurrentStep(4)} 
         onDataChange={(data) => handleHembraDataChange(data)} 
@@ -265,22 +274,28 @@ const Form = () => {
         }}
         setPorcentajeHembra={setPorcentajeHembra}
         onChangeComida={comida => setComida(comida)}
-      />;
+      />
+     </div>
+    )
   }
   
   // Renderizar componente Macho si se selecciona "Macho"
   if (currentStep === 3 && formData[2] === "Macho") {
-    return <Macho
-      nombre={formData[1]}
-      onContinue={() => setCurrentStep(4)} 
-      onDataChange={(data) => handleMachoDataChange(data)} 
-      onComplete={(puntuacion) => {
-        setPorcentajeMacho(puntuacion); // Actualiza el estado porcentajeMacho
-        setFormData((prev) => ({ ...prev, macho: { ...prev.macho, puntuacion } }));
-      }}
-      setPorcentajeMacho={setPorcentajeMacho} // Pasar la función como prop
-      onChangeComida={comida => setComida(comida)}
-    />;
+    return (
+      <div>
+        <Macho
+          nombre={formData[1]}
+          onContinue={() => setCurrentStep(4)} 
+          onDataChange={(data) => handleMachoDataChange(data)} 
+          onComplete={(puntuacion) => {
+            setPorcentajeMacho(puntuacion); // Actualiza el estado porcentajeMacho
+            setFormData((prev) => ({ ...prev, macho: { ...prev.macho, puntuacion } }));
+          }}
+          setPorcentajeMacho={setPorcentajeMacho} // Pasar la función como prop
+          onChangeComida={comida => setComida(comida)}
+        />
+      </div>
+    )
   }
 
   // Renderizar mensaje final

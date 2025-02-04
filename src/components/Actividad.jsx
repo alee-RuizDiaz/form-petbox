@@ -53,7 +53,7 @@ const Actividad = ({ nombre, onChange }) => {
 
   return (
     <div className="flex flex-col items-center pb-5">
-      <h2 className="font-quicksand font-semibold text-font lg:text-[25px] text-[17px] text-center pb-[15px]">
+      <h2 className="font-quicksand font-semibold text-font lg:text-[25px] text-[18px] text-center pb-[15px]">
         ¿Cuál es el nivel de actividad de {nombre}? 🏃‍♀️
       </h2>
       <p className="text-gray-600 mb-4 text-[14px] lg:text-[16px] text-center">

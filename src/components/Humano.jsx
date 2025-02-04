@@ -91,7 +91,7 @@ const Humano = ({ nombre, onSave, onContinue}) => {
       >
         Ver menú de {nombre}
       </button>
-      <span className="mb-[30px] text-center p-4 mt-[50px] bg-[#EDF8F8] rounded-[10px] font-quicksand text-[14px] lg:w-[650px] w-[300px]">
+      <span className="mb-[30px] text-center p-4 mt-[50px] bg-[#EDF8F8] rounded-[10px] font-quicksand text-[14px] lg:w-[450px] w-[300px]">
         Al continuar, se guardará tu proceso y estarás aceptando recibir las
         mejores recomendaciones sobre la alimentación de {nombre} 🧡
       </span>

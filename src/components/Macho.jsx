@@ -6,6 +6,7 @@ import Actividad from "./Actividad";
 import SeleccionPatologia from "./Patologias";
 import Comidas from "./Comidas";
 import Humano from "./Humano";
+import Progreso from './Progress'
 
 const OptionButton = ({ option, selected, onSelect }) => (
 
@@ -31,7 +32,7 @@ const Macho = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeMach
     contacto: { email: "", telefono: "" }
   });
 
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(4);
   const [puntuacion, setPuntuacion] = useState(0);
   const [tempPuntuacion, setTempPuntuacion] = useState(0);
   const [comida, setComida] = useState(null);
@@ -145,7 +146,8 @@ const Macho = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeMach
   return (
     <div>
       {/* Pregunta 1 */}
-      <div className={`${currentStep === 0 ? "block" : "hidden"} flex flex-col items-center`}>
+      <div className={`${currentStep === 4 ? "block" : "hidden"} flex flex-col items-center`}>
+      <Progreso currentStep={4} totalSteps={11}/>
         <div className="w-[80px] h-[80px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
           <img src={images.edad} alt="Perro" className="w-[50px] h-[50px]" />
         </div>
@@ -169,7 +171,8 @@ const Macho = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeMach
       </div>
 
       {/* Pregunta 2 */}
-      <div className={`${currentStep === 1 ? "block" : "hidden"} flex flex-col items-center`}>
+      <div className={`${currentStep === 5 ? "block" : "hidden"} flex flex-col items-center`}>
+      <Progreso currentStep={5} totalSteps={11}/>
         <div className="w-[110px] h-[110px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
           <img src={images.cumple} alt="Perro" className="w-[60px] h-[60px]" />
         </div>
@@ -199,7 +202,8 @@ const Macho = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeMach
       </div>
 
       {/* Pregunta 3 */}
-      <div className={`${currentStep === 2 ? "block" : "hidden"} flex flex-col items-center`}>
+      <div className={`${currentStep === 6 ? "block" : "hidden"} flex flex-col items-center`}>
+      <Progreso currentStep={6} totalSteps={11}/>
         <div className="w-[80px] h-[80px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
           <img src={images.perro} alt="Perro" className="w-[50px] h-[50px]" />
         </div>
@@ -219,7 +223,8 @@ const Macho = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeMach
       </div>
 
       {/* Pregunta 4 */}
-      <div className={`${currentStep === 3 ? "block" : "hidden"} flex flex-col items-center`}>
+      <div className={`${currentStep === 7 ? "block" : "hidden"} flex flex-col items-center`}>
+      <Progreso currentStep={7} totalSteps={11}/>
       <div className="w-[80px] h-[80px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
           <img src={images.perro} alt="Perro" className="w-[50px] h-[50px]" />
       </div>
@@ -249,7 +254,8 @@ const Macho = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeMach
       </div>
 
       {/* Pregunta 5 */}
-      <div className={`${currentStep === 4 ? "block" : "hidden"} flex flex-col items-center`}>
+      <div className={`${currentStep === 8 ? "block" : "hidden"} flex flex-col items-center`}>
+      <Progreso currentStep={8} totalSteps={11}/>
         <Actividad nombre={nombre} onChange={(actividad) => setFormData({ ...formData, actividad})} />
         <button
           onClick={() => handleNext("actividad")}
@@ -261,7 +267,8 @@ const Macho = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeMach
       </div>
 
       {/* Pregunta 6 */}
-      <div className={`${currentStep === 5 ? "block" : "hidden"} flex flex-col items-center`}>
+      <div className={`${currentStep === 9 ? "block" : "hidden"} flex flex-col items-center`}>
+      <Progreso currentStep={9} totalSteps={11}/>
         <SeleccionPatologia onPatologiaSeleccionada={(patologia) => {
           handleOptionSelect("patologia", patologia);
           setFormData({ ...formData, patologia });
@@ -269,7 +276,8 @@ const Macho = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeMach
       </div>
 
       {/* Pregunta 7 */}
-      <div className={`${currentStep === 6 ? "block" : "hidden"} flex flex-col items-center`}>
+      <div className={`${currentStep === 10 ? "block" : "hidden"} flex flex-col items-center`}>
+      <Progreso currentStep={10} totalSteps={11}/>
         <Comidas nombre={nombre} onChange={handleComidaChange} />
         <button
           onClick={() => handleNext("comida")}
@@ -281,7 +289,8 @@ const Macho = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeMach
       </div>
 
       {/* Pregunta 8 */}
-      <div className={`${currentStep === 7 ? "block" : "hidden"} flex flex-col items-center`}>
+      <div className={`${currentStep === 11 ? "block" : "hidden"} flex flex-col items-center`}>
+      <Progreso currentStep={11} totalSteps={11}/>
       <Humano 
         nombre={nombre}  
         onSave={(data) => handleOptionSelect("contacto", data)} 

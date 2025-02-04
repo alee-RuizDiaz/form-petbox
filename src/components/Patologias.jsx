@@ -43,7 +43,7 @@ const SeleccionPatologia = ({ onPatologiaSeleccionada, onContinue }) => {
       <h2 className="font-quicksand font-semibold text-font lg:text-[25px] text-[20px] pb-[15px]">
         ¿Tiene tu perro alguna patología?
       </h2>
-      <div className="flex space-x-4 mt-6">
+      <div className="flex space-x-4 mt-3">
         <button
           onClick={() => handleTienePatologia("Sí")}
           className={`px-6 py-3 text-[18px] font-quicksand rounded-full border-2 ${tienePatologia === "Sí" ? "bg-[#fe9] text-[#3d3d3d] border-[#ffc800]" : "hover:bg-gray-200"}`}
@@ -83,7 +83,7 @@ const SeleccionPatologia = ({ onPatologiaSeleccionada, onContinue }) => {
         </div>
       )}
 
-      <span className="text-center p-4 mt-[50px] bg-[#EDF8F8] rounded-[10px] font-quicksand text-[14px] lg:w-[650px] w-[300px]">
+      <span className="text-center p-4 mt-[30px] bg-[#EDF8F8] rounded-[10px] font-quicksand text-[14px] lg:w-[450px] w-[300px]">
         Cada perro es un mundo 🌎 ¡No te preocupes! 🧡<br /> Adaptaremos nuestro
         menú a su caso, siempre que sea posible. Si la patología de tu perro no
         aparece en el formulario, envía un correo a{" "}
