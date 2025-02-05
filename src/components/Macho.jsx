@@ -7,12 +7,14 @@ import SeleccionPatologia from "./Patologias";
 import Comidas from "./Comidas";
 import Humano from "./Humano";
 import Progreso from './Progress'
+import PreparandoPlato from "./Loaders/PraparandoPlato.jsx";
+import TurnoHumano from "./Loaders/TurnoHumano.jsx";
 
 const OptionButton = ({ option, selected, onSelect }) => (
 
   <button
     onClick={() => onSelect(option)}
-    className={`p-3 border rounded-lg text-[18px] text-center ${selected === option ? "bg-[#fe9] text-[#3d3d3d] border-[#ffc800]" : "hover:bg-gray-200"}`}
+    className={`p-3 border rounded-lg text-[16px] text-center ${selected === option ? "bg-[#fe9] text-[#3d3d3d] border-[#ffc800]" : "hover:bg-gray-200"}`}
   >
     {option}
   </button>
@@ -36,6 +38,7 @@ const Macho = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeMach
   const [puntuacion, setPuntuacion] = useState(0);
   const [tempPuntuacion, setTempPuntuacion] = useState(0);
   const [comida, setComida] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
 
   const handleInputChange = (e, step) => {
@@ -120,6 +123,20 @@ const Macho = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeMach
     if (step === "actividad") {
       updatedPuntuacion += formData.actividad.nivel;
     }
+    if (currentStep === 6) {
+      setIsLoading(true);
+      setTimeout(() => {
+        setIsLoading(false);
+        setCurrentStep(7);
+      }, 3500);
+    }
+    if (currentStep === 10) {
+      setIsLoading(true);
+      setTimeout(() => {
+        setIsLoading(false);
+        setCurrentStep(11);
+      }, 3500); 
+    }
     setTempPuntuacion(updatedPuntuacion);
     setPuntuacion(updatedPuntuacion);
     setCurrentStep((prev) => prev + 1);
@@ -142,6 +159,15 @@ const Macho = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeMach
     cumple: Cumple,
     perro: Perro
   };
+
+  // Pantalla de carga
+  if (isLoading) {
+    if (currentStep === 7) {
+      return <PreparandoPlato nombre={nombre}/>;
+    } else if (currentStep === 11) {
+      return <TurnoHumano/>;
+    }
+  }
 
   return (
     <div>

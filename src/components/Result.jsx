@@ -37,7 +37,7 @@ const Result = ({ nombre, racion, datos }) => {
     const mensaje = encodeURIComponent(
       `¡Hola! Estoy interesado en el plan de comida personalizada para ${nombre}. Me gustaría coordinar el pago y conocer más detalles. Mi plan recomendado por el formulario es de ${racion}g/dia`
     );
-    const numeroWhatsApp = "5491131124079";
+    const numeroWhatsApp = "5491135200956";
     window.open(`https://wa.me/${numeroWhatsApp}?text=${mensaje}`, "_blank");
   };
 
@@ -102,7 +102,7 @@ const Result = ({ nombre, racion, datos }) => {
       <h2 className="font-quicksand font-semibold text-font text-center px-4 md:text-3xl lg:text-[40px] pb-4 text-[25px]">
         Estás a punto de cambiar la vida de {nombre}
       </h2>
-      <span className="font-quicksand font-semibold text-font text-center text-sm md:text-base w-full max-w-md">
+      <span className="font-quicksand text-font text-center text-sm md:text-base w-full max-w-md">
         El plan de {nombre} está listo! Dale click al botón de WhatsApp y conversemos para coordinar el pago y que empiece a disfrutar su comida personalizada.
       </span>
       <div className="flex flex-col lg:flex-row items-center justify-center w-full max-w-5xl pt-5 gap-5">
@@ -137,12 +137,12 @@ const Result = ({ nombre, racion, datos }) => {
               </div>
             </div>
           </div>
-          <button onClick={enviarWhatsApp} className="mb-[-45px] w-full max-w-xs bg-[#E66C55] text-white font-semibold font-quicksand py-3 rounded-full shadow-md hover:bg-[#d65945] transition">
+          <button onClick={enviarWhatsApp} className="cursor-pointer mb-[-45px] w-full max-w-xs bg-[#E66C55] text-white font-semibold font-quicksand py-3 rounded-full shadow-md hover:bg-[#d65945] transition">
             Continuar por WhatsApp
           </button>
         </div>
       </div>
-      <div className="w-full overflow-hidden py-6">
+      <div className="w-full md:w-[1140px] overflow-hidden py-6">
         <div className="flex animate-scroll-left hover:pause w-full space-x-4 mt-[30px] md:mt-[10px] md:mt-[10px]">
           {["La mejor decisión que pude hacer por mi perra 🐾", "Estoy muy feliz con ellos. 💖", "Ya no volveremos a la comida deshidratada nunca! 🐶", "Ninguna comida lo hace tan feliz. 🍖", "Muy contenta con su producto. 🐕‍🦺"].map((text, index) => (
             <div key={index} className="px-4 py-3 bg-gray-100 rounded-lg shadow text-sm md:text-[14px] whitespace-nowrap ">

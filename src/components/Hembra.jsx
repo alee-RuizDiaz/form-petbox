@@ -7,6 +7,9 @@ import SeleccionPatologia from "./Patologias";
 import Comidas from "./Comidas";
 import Humano from "./Humano";
 import Progreso from './Progress'
+import PreparandoPlato from "./Loaders/PraparandoPlato.jsx";
+import TurnoHumano from "./Loaders/TurnoHumano.jsx";
+
 
 const OptionButton = ({ option, selected, onSelect }) => (
 
@@ -36,6 +39,7 @@ const Hembra = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHem
   const [puntuacion, setPuntuacion] = useState(0);
   const [tempPuntuacion, setTempPuntuacion] = useState(0);
   const [comida, setComida] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
 
   const handleInputChange = (e, step) => {
@@ -120,6 +124,20 @@ const Hembra = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHem
 
   const handleNext = (step) => {
     let updatedPuntuacion = tempPuntuacion;
+    if (currentStep === 6) {
+      setIsLoading(true);
+      setTimeout(() => {
+        setIsLoading(false);
+        setCurrentStep(7);
+      }, 3500);
+    }
+    if (currentStep === 10) {
+      setIsLoading(true);
+      setTimeout(() => {
+        setIsLoading(false);
+        setCurrentStep(11);
+      }, 3500); 
+    }
     if (step === "actividad") {
       updatedPuntuacion += formData.actividad.nivel;
     }
@@ -139,12 +157,20 @@ const Hembra = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHem
     return !formData[step];
   };
   
-
   const images = {
     edad: Edad,
     cumple: Cumple,
     perro: Perro
   };
+
+  // Pantalla de carga
+  if (isLoading) {
+    if (currentStep === 7) {
+      return <PreparandoPlato nombre={nombre}/>;
+    } else if (currentStep === 11) {
+      return <TurnoHumano/>;
+    }
+  }
 
   return (
     <div>
