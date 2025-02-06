@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import Cocinero from '../../assets/img/cocinero.png'
 
-const ResultadoComida = ({nombre}) => {
+const ResultadoComida = () => {
   const [mensajeActual, setMensajeActual] = useState(0);
   const mensajes = [
     "Mezclando ingredientes naturales",
@@ -33,11 +33,12 @@ const ResultadoComida = ({nombre}) => {
       <img src={Cocinero} alt="Plato de comida" className="w-[220px] h-[220px] object-cover" />
       <div>
         <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          key={mensajeActual} // Agrega una clave única para que framer-motion anime el cambio de mensaje
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.5 }}
-          className="mt-4 lg:text-lg text-[15px] font-quicksand text-font"
+          className="mt-2 lg:text-lg text-[15px] font-quicksand text-font"
         >
           {mensajes[mensajeActual]}
         </motion.p>

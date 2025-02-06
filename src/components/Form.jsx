@@ -20,6 +20,7 @@ const Form = () => {
   const [porcentajeMacho, setPorcentajeMacho] = useState(0);
   const [comida, setComida] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingResult, setIsLoadingResult] = useState(false);
   
   const handleInputChange = (e) => {
     const value = e.target.value;
@@ -56,22 +57,20 @@ const Form = () => {
       setTimeout(() => {
         setIsLoading(false);
         setCurrentStep(1);
-      }, 3500); // Simula una carga de 2 segundos
-    }
-    else if (currentStep === 3) {
-      setIsLoading(true);
+      }, 3500);
+    } 
+    else if (currentStep === 3) { 
+      setIsLoadingResult(true);
+      console.log("Mostrando pantalla de carga...");
       setTimeout(() => {
-        setIsLoading(false);
+        setIsLoadingResult(false);
         setCurrentStep(4);
-      }, 6000); // Simula una carga de 3 segundos
-    }
-    else if (currentStep === 3) {
-      // Si estamos en Macho o Hembra, avanzar al paso final
-      setCurrentStep(4);
-    } else {
+      }, 6000);
+    } 
+    else {
       setCurrentStep((prev) => prev + 1);
     }
-    setIsNextEnabled(false); // Reinicia el estado del botón
+    setIsNextEnabled(false);
   };
 
   const handleRazaSelection = (raza, porcentaje) => {
@@ -91,6 +90,7 @@ const Form = () => {
       setIsNextEnabled(false);
     }
   }, [currentStep, formData]);
+
 
   function redondearRacion(racionDiaria) {
     if (racionDiaria <= 124) {
@@ -177,6 +177,16 @@ const Form = () => {
     },
   };
 
+
+  // Pantalla de carga
+  if (isLoading) {
+    return <PlatoComida/>
+  }
+
+  if (isLoadingResult) {
+    return <ResultadoComida />;
+  }
+
   // Renderizar la introducción
   if (currentStep === -1) {
     return (
@@ -202,12 +212,7 @@ const Form = () => {
     );
   }
 
-// Pantalla de carga
-if (isLoading) {
-  return <PlatoComida/>
-}
-
-  // Paso de selección de raza
+ // Paso de selección de raza
   if (currentStep === 0) {
     return (
       <div>
@@ -307,23 +312,22 @@ if (isLoading) {
 
   if (currentStep === 3 && formData[2] === "Hembra") {
     return (
-     <div>
-      <Hembra
-        nombre={formData[1]}
-        onContinue={() => setCurrentStep(4)} 
-        onDataChange={(data) => handleHembraDataChange(data)} 
-        onComplete={(puntuacion) => {
-          setPorcentajeHembra(puntuacion); // Actualiza el estado porcentajeHembra
-          setFormData((prev) => ({ ...prev, hembra: { ...prev.hembra, puntuacion } }));
-        }}
-        setPorcentajeHembra={setPorcentajeHembra}
-        onChangeComida={comida => setComida(comida)}
-      />
-     </div>
-    )
+      <div>
+        <Hembra
+          nombre={formData[1]}
+          onContinue={() => setCurrentStep(4)} 
+          onDataChange={(data) => handleHembraDataChange(data)} 
+          onComplete={(puntuacion) => {
+            setPorcentajeHembra(puntuacion); // Actualiza el estado porcentajeHembra
+            setFormData((prev) => ({ ...prev, hembra: { ...prev.hembra, puntuacion } }));
+          }}
+          setPorcentajeHembra={setPorcentajeHembra}
+          onChangeComida={comida => setComida(comida)}
+        />
+      </div>
+    );
   }
   
-  // Renderizar componente Macho si se selecciona "Macho"
   if (currentStep === 3 && formData[2] === "Macho") {
     return (
       <div>
@@ -339,22 +343,27 @@ if (isLoading) {
           onChangeComida={comida => setComida(comida)}
         />
       </div>
-    )
+    );
+  }
+  
+  if (currentStep === 4) {
+    setIsLoadingResult(true); // Muestra la pantalla de carga
+    setTimeout(() => {
+      setIsLoadingResult(false);
+      setCurrentStep(5); // Actualiza el estado currentStep a 4 después de 6 segundos
+    }, 6000);
+    return <ResultadoComida />;
   }
 
   // Renderizar mensaje final
-  if (currentStep === 4) {
+  if (currentStep === 5) {
     return (
       <div>
-        {isLoading ? (
-          <ResultadoComida />
-        ) : (
           <Result 
             nombre={formData[1]} 
             racion={racionRedondeada} 
             datos={formData[2] === "Hembra" ? datosHembra : datosMacho} 
           />
-        )}
       </div>
     );
   }

@@ -11,7 +11,7 @@ const TurnoHumano = () => {
       className="fixed top-0 left-0 w-full h-screen flex flex-col items-center justify-center bg-white z-50"
     >
       <img src={Plato} alt="Plato de comida" className="w-[220px] h-[220px] object-cover" />
-      <p className="mt-4 lg:text-lg text-[15px] font-quicksand text-font">Ahora, turno del humano 🥳</p>
+      <p className="mt-2 lg:text-lg text-[15px] font-quicksand text-font">Ahora, turno del humano 🥳</p>
     </motion.div>
   );
 };

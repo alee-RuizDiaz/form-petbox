@@ -9,6 +9,7 @@ import Humano from "./Humano";
 import Progreso from './Progress'
 import PreparandoPlato from "./Loaders/PraparandoPlato.jsx";
 import TurnoHumano from "./Loaders/TurnoHumano.jsx";
+import ResultadoComida from "./Loaders/ResultadoComida.jsx";
 
 
 const OptionButton = ({ option, selected, onSelect }) => (
