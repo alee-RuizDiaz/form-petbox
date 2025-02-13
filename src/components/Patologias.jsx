@@ -3,10 +3,11 @@ import Patologia from "../assets/img/patologia.png"; // Asegúrate de la ruta co
 
 const SeleccionPatologia = ({ onPatologiaSeleccionada, onContinue }) => {
   const [tienePatologia, setTienePatologia] = useState(null); // Sí o No
-  const [patologia, setPatologia] = useState(""); // Patología seleccionada
+  const [patologias, setPatologias] = useState([]); // Patologías seleccionadas
   const [isOpen, setIsOpen] = useState(false); // Para manejar el estado del desplegable
+  
 
-  const patologias = [
+  const patologiasList = [
     "Alergias o Intolerancias Alimentarias",
     "Digestiones Sensibles",
     "Problemas de Piel",
@@ -23,17 +24,20 @@ const SeleccionPatologia = ({ onPatologiaSeleccionada, onContinue }) => {
 
   const handleTienePatologia = (respuesta) => {
     setTienePatologia(respuesta);
-    setPatologia(""); // Resetear si cambia la respuesta a "No"
+    setPatologias([]); // Resetear si cambia la respuesta a "No"
     onPatologiaSeleccionada(respuesta); // Enviar al padre
   };
 
-  const handleSelectPatologia = (value) => {
-    setPatologia(value);
-    onPatologiaSeleccionada(value); // Notificar al padre con la selección
-    setIsOpen(false); // Cerrar el desplegable
+  const handleSelectPatologia = (patologia) => {
+    if (patologias.includes(patologia)) {
+      setPatologias(patologias.filter((p) => p !== patologia));
+    } else {
+      setPatologias([...patologias, patologia]);
+    }
+    onPatologiaSeleccionada(patologias.join(', '));
   };
 
-  const isContinueEnabled = tienePatologia === "No" || (tienePatologia === "Sí" && patologia);
+  const isContinueEnabled = tienePatologia === "No" || (tienePatologia === "Sí" && patologias.length > 0);
 
   return (
     <div className="flex flex-col items-center">
@@ -64,18 +68,23 @@ const SeleccionPatologia = ({ onPatologiaSeleccionada, onContinue }) => {
             onClick={() => setIsOpen(!isOpen)}
             className="w-full text-left p-3 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none"
           >
-            {patologia || "Selecciona una patología"}
+            {patologias.length === 0 ? "Selecciona una patología" : patologias.join(", ")}
           </button>
 
           {isOpen && (
             <ul className="absolute left-0 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto z-10">
-              {patologias.map((p, index) => (
-                <li
-                  key={index}
-                  onClick={() => handleSelectPatologia(p)}
-                  className="p-3 text-[16px] font-quicksand text-font hover:bg-[#edf8f8] hover:text-secondary cursor-pointer"
-                >
-                  {p}
+              {patologiasList.map((patologia) => (
+                <li key={patologia} className="p-3 text-[16px] font-quicksand text-font hover:bg-[#edf8f8] hover:text-secondary cursor-pointer">
+                  <input
+                    type="checkbox"
+                    id={patologia}
+                    checked={patologias.includes(patologia)}
+                    onChange={() => handleSelectPatologia(patologia)}
+                    className="accent-[#E66C55]"
+                  />
+                  <label htmlFor={patologia} className="ml-2">
+                    {patologia}
+                  </label>
                 </li>
               ))}
             </ul>
@@ -83,7 +92,7 @@ const SeleccionPatologia = ({ onPatologiaSeleccionada, onContinue }) => {
         </div>
       )}
 
-      <span className="text-center p-4 mt-[30px] bg-[#EDF8F8] rounded-[10px] font-quicksand text-[14px] lg:w-[450px] w-[300px]">
+     <span className="text-center p-4 mt-[30px] bg-[#EDF8F8] rounded-[10px] font-quicksand text-[14px] lg:w-[450px] w-[300px]">
         Cada perro es un mundo 🌎 ¡No te preocupes! 🧡<br /> Adaptaremos nuestro
         menú a su caso, siempre que sea posible. Si la patología de tu perro no
         aparece en el formulario, envía un correo a{" "}

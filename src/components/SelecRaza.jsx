@@ -20,7 +20,7 @@ const SeleccionarRaza = ({ onContinue, onRazaSeleccionada }) => {
       "Affenpinscher",
       "Maltés",
       "Caniche Toy",
-    ] },
+    ].sort() },
     { category: "Perros pequeños", breeds: [
       "Shih Tzu",
       "Dachshund Mini",
@@ -35,7 +35,7 @@ const SeleccionarRaza = ({ onContinue, onRazaSeleccionada }) => {
       "Havanese",
       "Cairn Terrier",
       "Caniche",
-    ] },
+    ].sort() },
     { category: "Perros medianos", breeds: [
       "Beagle",
       "Bulldog Francés",
@@ -55,7 +55,7 @@ const SeleccionarRaza = ({ onContinue, onRazaSeleccionada }) => {
       "Shiba Inu",
       "Keeshond",
       "Caniche Estándar",
-    ] },
+    ].sort() },
     { category: "Perros grandes", breeds: [
       "Golden Retriever",
       "Labrador Retriever",
@@ -71,7 +71,7 @@ const SeleccionarRaza = ({ onContinue, onRazaSeleccionada }) => {
       "Collie",
       "Samoyedo",
       "Flat-Coated Retriever",
-    ] },
+    ].sort() },
     { category: "Perros gigantes", breeds: [
       "Rottweiler",
       "Gran Danés",
@@ -82,7 +82,7 @@ const SeleccionarRaza = ({ onContinue, onRazaSeleccionada }) => {
       "Akita Americano",
       "Mastín Napolitano",
       "Dogo Alemán",
-    ] },
+    ].sort() },
   ];
   
   // Filtrar opciones basado en el término de búsqueda

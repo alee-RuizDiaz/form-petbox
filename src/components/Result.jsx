@@ -3,11 +3,21 @@ import Cerdo from "../assets/img/cerdo.png";
 import Carne from "../assets/img/carne.jpg";
 import Pescado from "../assets/img/pescado.png";
 import Pollo from "../assets/img/pollo.jpg";
-import { Carousel } from "@material-tailwind/react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const Result = ({ nombre, racion, datos }) => {
   const [enviado, setEnviado] = useState(false);
+  const images = [Cerdo, Carne, Pescado, Pollo];
+  const colors = ["#C8EAEA", "#FFEE99", "#EFE7DB", "#FFC9B2"];
+
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const handleCarouselChange = (index) => {
+    setActiveIndex(index);
+  };
 
   const enviarDatos = async (datos) => {
     try {
@@ -76,12 +86,12 @@ const Result = ({ nombre, racion, datos }) => {
     { gramos: 2600, precio: 330000 },
     { gramos: 2700, precio: 341000 },
   ];
-  
+
   const precioRacion = (gramos) => {
     const precio = preciosRacion.find((precio) => precio.gramos === gramos);
     return precio ? precio.precio : null;
   };
-  
+
   const redondearPrecioRacion = (gramos) => {
     const precio = precioRacion(gramos);
     if (precio) return precio;
@@ -96,63 +106,75 @@ const Result = ({ nombre, racion, datos }) => {
   };
 
   const precio = redondearPrecioRacion(racion);
+  const precioFormateado = precio.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' });
+  const precioFinal = precioFormateado.replace('$', '').replace(',00', '');
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    afterChange: handleCarouselChange, 
+  };
 
   return (
-    <div className="flex flex-col items-center pb-5 max-w-full overflow-hidden px-4 w-[380px] lg:w-full">
-      <h2 className="font-quicksand font-semibold text-font text-center px-4 md:text-3xl lg:text-[40px] pb-4 text-[25px]">
-        Estás a punto de cambiar la vida de {nombre}
-      </h2>
-      <span className="font-quicksand text-font text-center text-sm md:text-base w-full max-w-md">
-        El plan de {nombre} está listo! Dale click al botón de WhatsApp y conversemos para coordinar el pago y que empiece a disfrutar su comida personalizada.
-      </span>
-      <div className="flex flex-col lg:flex-row items-center justify-center w-full max-w-5xl pt-5 gap-5">
-        <div className="w-full lg:w-2/3">
-          <Carousel className="rounded-xl w-[100%] md:w-[90%] lg:w-[90%]">
-            {[Cerdo, Carne, Pescado, Pollo].map((img, index) => (
-              <img key={index} src={img} alt={`image ${index + 1}`} className="h-full w-full object-cover" />
-            ))}
-          </Carousel>
-        </div>
-        <div className="w-full lg:w-1/3  flex flex-col items-center bg-[#FBF8E9] rounded-2xl shadow-lg p-6 text-center">
-          <span className="bg-yellow-200 text-font font-semibold text-sm px-3 py-1 rounded-full">
-            ⭐ RECOMENDADO
-          </span>
-          <div className="w-full mt-4">
-            <div className="text-[25px] font-semibold text-font mb-2 font-quicksand">
-              Su plan: <span className="text-font text-[30px] font-bold">{racion}g</span>/día
-            </div>
-            <div className="w-full h-[0.5px] bg-gray-300"></div>
-            <div className="mt-4">
-              <div className="text-base font-semibold font-quicksand">Prueba 15 días</div>
-              <div className="py-4">
-                <span className="text-lg font-semibold font-quicksand">
-                  Precio:
-                  <div className="flex justify-center items-center gap-2 pt-3">
-                    <div className="py-2 px-3 bg-green-100 text-green-600 font-semibold rounded-full text-[15px]">
-                      -30 % 🐾
+    <div className="flex flex-col items-center pb-5 max-w-full overflow-hidden w-[380px] lg:w-full">
+      <div 
+        className="w-full px-4 flex flex-col items-center py-[50px] transition-colors duration-500" 
+        style={{ backgroundColor: colors[activeIndex] || "#C8EAEA" }}
+      >
+        <h2 className="font-quicksand font-semibold text-font text-center px-4 md:text-3xl lg:text-[40px] pb-4 text-[25px]">
+          Estás a punto de cambiar la vida de {nombre}
+        </h2>
+        <span className="font-quicksand text-font text-center text-sm md:text-base w-full max-w-md">
+          El plan de {nombre} está listo! Dale click al botón de WhatsApp y conversemos para coordinar el pago y que empiece a disfrutar su comida personalizada.
+        </span>
+        <div className="flex flex-col lg:flex-row items-center justify-center w-full max-w-5xl pt-5 gap-5">
+          <div className="w-full lg:w-[55%] pb-[25px] lg:pb-0">
+            <Slider {...settings}>
+              {images.map((img, index) => (
+                <div key={index}>
+                  <img src={img} alt={`image ${index + 1}`} className="h-full w-full object-cover rounded-xl" />
+                </div>
+              ))}
+            </Slider>
+          </div>
+          <div className="w-full lg:w-1/2 lg:ml-[40px] flex flex-col items-center bg-white rounded-2xl shadow-lg p-6 text-center">
+            <span className="bg-yellow-200 text-font font-semibold text-sm px-3 py-1 rounded-full">
+              ⭐ RECOMENDADO
+            </span>
+            <div className="w-full mt-4">
+              <div className="text-[25px] font-semibold text-font mb-2 font-quicksand">
+                Su plan: <span className="text-font text-[30px] font-bold">{racion}g</span>/día
+              </div>
+              <div className="w-full h-[0.5px] bg-gray-300"></div>
+              <div className="mt-4">
+                <div className="text-base font-semibold font-quicksand">Prueba 7 días</div>
+                <div className="py-4">
+                  <span className="text-lg font-semibold font-quicksand">
+                    Precio:
+                    <div className="flex justify-center items-center gap-2 pt-3">
+                      <button className='px-2 rounded-full bg-[#C8EAEA] text-[#0a7373] font-quicksand font-semibold btn-animation text-[13px] lg:text-[15px]'>🎉 -30 %</button>
+                      <span className="font-quicksand text-[#767676] text-[15px] line-through">{(precio * 1.3).toLocaleString('es-AR', { style: 'currency', currency: 'ARS' }).replace('$', '').replace(',00', '')} AR$</span>
+                      <div className="font-quicksand text-font lg:text-[25px] text-[16]">{precioFinal}<span className="text-lg">AR$</span></div>
                     </div>
-                    <div className="font-quicksand text-font text-[25px]">{precio}<span className="text-lg">AR$</span></div>
-                  </div>
-                </span>
+                  </span>
+                </div>
               </div>
             </div>
+            <button onClick={enviarWhatsApp} className="cursor-pointer mb-[-45px] w-full max-w-xs bg-[#E66C55] text-white font-semibold font-quicksand py-3 rounded-full shadow-md hover:bg-[#d65945] transition">
+              Continuar por WhatsApp
+            </button>
           </div>
-          <button onClick={enviarWhatsApp} className="cursor-pointer mb-[-45px] w-full max-w-xs bg-[#E66C55] text-white font-semibold font-quicksand py-3 rounded-full shadow-md hover:bg-[#d65945] transition">
-            Continuar por WhatsApp
-          </button>
         </div>
       </div>
-      <div className="w-full md:w-[1140px] overflow-hidden py-6">
-        <div className="flex animate-scroll-left hover:pause w-full space-x-4 mt-[30px] md:mt-[10px] md:mt-[10px]">
-          {["La mejor decisión que pude hacer por mi perra 🐾", "Estoy muy feliz con ellos. 💖", "Ya no volveremos a la comida deshidratada nunca! 🐶", "Ninguna comida lo hace tan feliz. 🍖", "Muy contenta con su producto. 🐕‍🦺"].map((text, index) => (
-            <div key={index} className="px-4 py-3 bg-gray-100 rounded-lg shadow text-sm md:text-[14px] whitespace-nowrap ">
-              {text}
-            </div>
-          ))}
-        </div>
-        <div className="flex animate-scroll-right hover:pause w-full space-x-4 mt-3">
-          {["Mi perro ama su comida. 🐶❤️", "Nunca lo vi tan feliz. 🐾✨", "Su pelo brilla más que nunca. 🐕🧼", "Adiós problemas digestivos. 🍖✅", "La mejor elección para él. 🏆🐕"].map((text, index) => (
-            <div key={index} className="px-4 py-3 bg-gray-100 rounded-lg shadow text-sm md:text-[14px] whitespace-nowrap ">
+      <div className="w-full overflow-hidden" style={{background: '#FFEE99'}}>
+        <div className="flex animate-scroll-left hover:pause w-full space-x-4">
+          {["La mejor decisión que pude hacer por mi perra 🐾", "Estoy muy feliz con ellos. 💖", "Ya no volveremos a la comida deshidratada nunca! 🐶 ", "Ninguna comida lo hace tan feliz. 🍖",
+            "Muy contenta con su producto. 🐕‍🦺", "Mi perro ama su comida. 🐶❤️", "Nunca lo vi tan feliz. 🐾✨", "Su pelo brilla más que nunca. 🐕🧼",
+            "Adiós problemas digestivos. 🍖✅", "La mejor elección para él. 🏆🐕"].map((text, index) => (
+            <div key={index} className="px-4 py-2 text-sm md:text-[14px] whitespace-nowrap ">
               {text}
             </div>
           ))}

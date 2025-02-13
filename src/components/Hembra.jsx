@@ -9,7 +9,7 @@ import Humano from "./Humano";
 import Progreso from './Progress'
 import PreparandoPlato from "./Loaders/PraparandoPlato.jsx";
 import TurnoHumano from "./Loaders/TurnoHumano.jsx";
-import ResultadoComida from "./Loaders/ResultadoComida.jsx";
+import Silueta from "./Silueta.jsx";
 
 
 const OptionButton = ({ option, selected, onSelect }) => (
@@ -85,7 +85,7 @@ const Hembra = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHem
       "Delgada": 2.5,
       "Peso ideal": 2.25,
       "Sobrepeso": 2,
-      "Obesa": 1.5,
+      //"Obesa": 1.5,
     },
     patologia: {
       "Si": 0,
@@ -104,7 +104,10 @@ const Hembra = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHem
     if (typeof option === "object") {
       if (step === "actividad") {
         updatedPuntuacion += option.nivel;
-        setFormData({ ...formData, actividad: option.value });
+        setFormData({ ...formData, actividad: option });
+      } else if (step === "silueta") {
+        updatedPuntuacion += option.nivel;
+        setFormData({ ...formData, silueta: option });
       }
       setFormData({ ...formData, contacto: option });
       onDataChange({ ...formData, contacto: option });
@@ -125,6 +128,11 @@ const Hembra = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHem
 
   const handleNext = (step) => {
     let updatedPuntuacion = tempPuntuacion;
+    if (step === "actividad") {
+      updatedPuntuacion += formData.actividad.nivel;
+    }  else if (step === "silueta") {
+      updatedPuntuacion += formData.silueta.nivel;
+    }
     if (currentStep === 6) {
       setIsLoading(true);
       setTimeout(() => {
@@ -139,12 +147,14 @@ const Hembra = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHem
         setCurrentStep(11);
       }, 3500); 
     }
-    if (step === "actividad") {
-      updatedPuntuacion += formData.actividad.nivel;
-    }
     setTempPuntuacion(updatedPuntuacion);
     setPuntuacion(updatedPuntuacion);
     setCurrentStep((prev) => prev + 1);
+  };
+
+  const handlePatologiaChange = (patologia) => {
+    setFormData((prev) => ({ ...prev, patologia }));
+    onDataChange({ patologia });
   };
 
   const isNextButtonDisabled = (step) => {
@@ -154,6 +164,9 @@ const Hembra = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHem
     if (step === "contacto") return !formData[step]?.email || !formData[step]?.telefono;
     if (step === "edad") {
       return !formData[step] || (formData[step] === "Cachorro (menos de 1 año)" && !formData.edadDetallada);
+    }
+    if (step === "silueta") {
+      return formData.silueta === "";
     }
     return !formData[step];
   };
@@ -243,19 +256,14 @@ const Hembra = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHem
       {/* Pregunta 3 */}
       <div className={`${currentStep === 6 ? "block" : "hidden"} flex flex-col items-center`}>
         <Progreso currentStep={6} totalSteps={11}/>
-        <div className="w-[80px] h-[80px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-6">
-          <img src={images.perro} alt="Perro" className="w-[50px] h-[50px]" />
-        </div>
-        <h2 className="font-quicksand font-semibold text-font text-center lg:text-[25px] text-[18px] pb-[15px]">¿Qué silueta representa mejor a {nombre}?</h2>
-        <div className="lg:w-[450px] w-[320px] flex flex-col space-y-2">
-          {["Delgada", "Peso ideal", "Sobrepeso", "Obesa"].map((option, idx) => (
-            <OptionButton key={idx} option={option} selected={formData.silueta} onSelect={(option) => handleOptionSelect("silueta", option)} />
-          ))}
-        </div>
+        <Silueta 
+          nombre={nombre} 
+          onChange={(silueta) => setFormData({ ...formData, silueta: silueta })} 
+        />
         <button
           onClick={() => handleNext("silueta")}
           disabled={isNextButtonDisabled("silueta")}
-          className={`mt-[30px] mb-[30px] font-quicksand p-[10px] px-[25px] text-white text-[20px] rounded-[20px] font-semibold hover:bg-primary hover:text-[#3d3d3d] transition ${!isNextButtonDisabled("silueta") ? "bg-[#E66C55]" : "bg-gray-300 text-gray-500 cursor-not-allowed"}`}
+          className={`mt-[30px] mb-[30px] font-quicksand p-[10px] px-[25px] text-white text-[20px] rounded-[20px] font-semibold hover:bg-primary hover:text-[#3d3d3d] transition ${isNextButtonDisabled("silueta") ? "bg-gray-300 text-gray-500 cursor-not-allowed" : "bg-[#E66C55]"}`}
         >
           Continuar
         </button>
@@ -307,11 +315,11 @@ const Hembra = ({ nombre, onContinue, onDataChange, onComplete, setPorcentajeHem
 
       {/* Pregunta 6 */}
       <div className={`${currentStep === 9 ? "block" : "hidden"} flex flex-col items-center`}>
-        <Progreso currentStep={9} totalSteps={11}/>
-        <SeleccionPatologia onPatologiaSeleccionada={(patologia) => {
-          handleOptionSelect("patologia", patologia);
-          setFormData({ ...formData, patologia });
-        }} onContinue={() => handleNext("patologia")} />
+        <Progreso currentStep={9} totalSteps={11} />
+        <SeleccionPatologia
+          onPatologiaSeleccionada={(patologia) => handlePatologiaChange(patologia)}
+          onContinue={() => handleNext("patologia")}
+        />
       </div>
 
       {/* Pregunta 7 */}

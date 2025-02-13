@@ -37,12 +37,52 @@
     font-style: normal;
   }
 
-  .slick-prev, .slick-next {
-    background-color: #E66C55;
-    border-radius: 50%;
-    padding: 0.5rem;
-  }
 
-  button {
-    cursor: pointer;
+.slick-prev:before {
+  margin-left: -22px!important;
+}
+
+.slick-dots li button::before {
+  font-size: 12px!important;
+}
+
+.slick-dots li.slick-active button:before {
+  opacity: 1!important;
+  color: rgb(255, 255, 255)!important;
+}
+
+.slick-prev:before, .slick-next:before {
+  font-size: 40px!important;
+  color: white!important;
+}
+
+.btn-animation {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-animation:after {
+    animation: slide 3s infinite;
+    background: linear-gradient(90deg, #fff0 0, #fffc 50%, #80bae800 99%, #7db9e800);
+    content: "";
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    transform: translate(-100%);
+    z-index: 1;
+}
+
+
+@keyframes slide {
+  to {
+      transform: translate(100%)
   }
+}
+
+@media (max-width: 764px) {
+  .slick-prev:before, .slick-next:before {
+    display: none!important;
+  }
+}

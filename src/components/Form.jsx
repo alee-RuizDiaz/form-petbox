@@ -9,9 +9,10 @@ import Result from "./Result";
 import Progreso from './Progress';
 import PlatoComida from "./Loaders/PlatoComida";
 import ResultadoComida from "./Loaders/ResultadoComida";
+import InitialLoader from "./Loaders/InitialLoader";
 
 const Form = () => {
-  const [currentStep, setCurrentStep] = useState(-1);
+  const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({});
   const [isNextEnabled, setIsNextEnabled] = useState(false);
   const [selectedRaza, setSelectedRaza] = useState({raza: "", porcentaje: 0});
@@ -21,6 +22,13 @@ const Form = () => {
   const [comida, setComida] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingResult, setIsLoadingResult] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsInitializing(false);
+    }, 2000);
+  }, []);
   
   const handleInputChange = (e) => {
     const value = e.target.value;
@@ -79,6 +87,7 @@ const Form = () => {
     handleNext();
   };
 
+  
   useEffect(() => {
     setTotalPorcentaje(selectedRaza.porcentaje + porcentajeHembra + porcentajeMacho);
   }, [selectedRaza.porcentaje, porcentajeHembra, porcentajeMacho]);
@@ -148,7 +157,7 @@ const Form = () => {
     esterilizada: formData.macho?.esterilizado,
     lactante: formData.macho?.lactanteOGestante,
     edad: formData.macho?.edad,
-    silueta: formData.macho?.silueta,
+    silueta: formData.macho?.silueta?.label,
     peso: formData.macho?.peso,
     actividad: formData.macho?.actividad?.label,
     patologia: formData.macho?.patologia,
@@ -166,7 +175,7 @@ const Form = () => {
     esterilizada: formData.hembra?.esterilizado,
     lactante: formData.hembra?.lactanteOGestante,
     edad: formData.hembra?.edad,
-    silueta: formData.hembra?.silueta,
+    silueta: formData.hembra?.silueta?.label,
     peso: formData.hembra?.peso,
     actividad: formData.hembra?.actividad?.label,
     patologia: formData.hembra?.patologia,
@@ -190,7 +199,7 @@ const Form = () => {
   // Renderizar la introducción
   if (currentStep === -1) {
     return (
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center pt-[50px]">
         <div className="w-[80px] h-[80px] bg-[#edf8f8] rounded-full flex items-center justify-center mb-5">
           <img src={Perro} alt="Perro" className="w-[90px] h-[90px]" />
         </div>
@@ -217,7 +226,7 @@ const Form = () => {
     return (
       <div>
         <Progreso currentStep={1} totalSteps={12}/>
-        <SeleccionarRaza onContinue={handleRazaSelection} onRazaSeleccionada={handleRazaSeleccionada} />
+        {isInitializing ? <InitialLoader/> : <SeleccionarRaza onContinue={handleRazaSelection} onRazaSeleccionada={handleRazaSeleccionada} />}
       </div>
     );
   }
