@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import SelectivoImg from "../assets/img/Selectivo.png";
-import GourmetImg from "../assets/img/Gourmet.png";
-import GlotonImg from "../assets/img/Gloton.svg";
+import SelectivoImg from "../assets/img/selectivo.png";
+import GourmetImg from "../assets/img/gourmet.png";
+import GlotonImg from "../assets/img/gloton.png";
 
 const Comidas = ({ nombre, onChange }) => {
   const [selectedValue, setSelectedValue] = useState(2); // Valor inicial
@@ -76,7 +76,7 @@ const Comidas = ({ nombre, onChange }) => {
         <img
           src={currentOption.image}
           alt={currentOption.label}
-          className="w-[150px] h-[150px] mr-4 my-5"
+          className="lg:w-[180px] lg:h-[180px] w-[150px] h-[150px] mt-[-15px]"
         />
         <div className="bg-[#EDF8F8] p-4 rounded-lg shadow-md lg:w-[450px] w-[300px] text-center">
           <p className="font-quicksand text-sm">

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Delgada from "../assets/img/Perro.svg";
-import Ideal from "../assets/img/Perro.svg";
-import Sobrepeso from "../assets/img/Perro.svg";
+import Delgada from "../assets/img/delgado.png";
+import Ideal from "../assets/img/pesoideal.png";
+import Sobrepeso from "../assets/img/sobrepeso.png";
 
 const Silueta = ({ nombre, onChange }) => {
   const [selectedValue, setSelectedValue] = useState(2);
@@ -17,7 +17,7 @@ const Silueta = ({ nombre, onChange }) => {
     {
       value: 2,
       label: "Peso ideal",
-      description: "Hecho un figurín: La cintura es visible y sus costillas son fáciles de palpar.",
+      description: "En forma y saludable: La cintura se nota bien definida y se pueden sentir las costillas sin dificultad.",
       image: Ideal,
       nivel: 2.25,
     },
@@ -73,7 +73,7 @@ const Silueta = ({ nombre, onChange }) => {
         <img
           src={currentLevel.image}
           alt={currentLevel.label}
-          className="lg:w-[120px] lg:h-[120px] w-[100px] h-[100px] mr-4 my-5"
+          className="lg:w-[180px] lg:h-[180px] w-[150px] h-[150px] mt-[-15px]"
         />
         <div className="bg-[#EDF8F8] p-4 rounded-lg shadow-md lg:w-[450px] w-[300px]">
           <p className="font-quicksand text-sm text-center lg:text-start">

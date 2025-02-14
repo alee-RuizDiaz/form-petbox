@@ -38,8 +38,8 @@
   }
 
 
-.slick-prev:before {
-  margin-left: -22px!important;
+.slick-next:before {
+  margin-left: -25px!important;
 }
 
 .slick-dots li button::before {

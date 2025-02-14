@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Cerdo from "../assets/img/cerdo.png";
-import Carne from "../assets/img/carne.jpg";
+import Carne from "../assets/img/carne.png";
 import Pescado from "../assets/img/pescado.png";
-import Pollo from "../assets/img/pollo.jpg";
+import Pollo from "../assets/img/pollo.png";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
